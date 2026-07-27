@@ -118,7 +118,6 @@ function activeProducts() {
   return state.groups.flatMap((group) =>
     group.products
       .map((product) => ({
-        groupName: group.name,
         name: product["商品名"],
         sales: getValue(product.id, "sales")
       }))
@@ -128,24 +127,16 @@ function activeProducts() {
 
 function createReport() {
   const active = activeProducts();
-  const heading = `【売上報告】${elements.date.value.replaceAll("-", "/")}${elements.staff.value.trim() ? `　担当：${elements.staff.value.trim()}` : ""}`;
+  const [, month = "", day = ""] = elements.date.value.split("-");
+  const reportDate = `${Number(month)}/${Number(day)}`;
 
-  if (!active.length) return `${heading}\n\n入力された商品はありません。`;
+  if (!active.length) return reportDate;
 
-  let currentGroup = "";
-  const lines = active.flatMap((product) => {
-    const result = [];
-    if (product.groupName !== currentGroup) {
-      currentGroup = product.groupName;
-      result.push(`■ ${currentGroup}`);
-    }
-    result.push(`・${product.name}：${product.sales}`);
-    return result;
-  });
+  const lines = active.map(
+    (product) => `${product.name}　　　　　${product.sales}`
+  );
 
-  const salesTotal = active.reduce((sum, product) => sum + product.sales, 0);
-
-  return `${heading}\n\n${lines.join("\n")}\n\n【販売合計】${salesTotal}`;
+  return `${reportDate}\n${lines.join("\n")}`;
 }
 
 function updateReport() {
