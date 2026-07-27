@@ -127,11 +127,11 @@ button { cursor: pointer; }
 .work-area { min-width: 0; padding: 18px 0 40px; }
 
 .work-header {
-  min-height: 128px;
+  min-height: 82px;
   padding: 8px 12px 30px;
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 30px;
   border-bottom: 1px solid #bfb8aa;
 }
@@ -288,7 +288,7 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .count-card { margin-top: 16px; }
   .reset-button { margin-top: 16px; }
   .work-area { padding-top: 15px; }
-  .work-header { min-height: 110px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
+  .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
   .menu-panel { padding-inline: 12px; }
   .report-actions { align-items: flex-start; flex-direction: column; }
   .copy-action { width: 100%; justify-content: space-between; }

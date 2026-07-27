@@ -36,11 +36,9 @@ function getValue(productId, channelId) {
   return state.values[key(productId, channelId)] || 0;
 }
 
-function setValue(productId, channelId, value, salesLimit) {
-  state.values[key(productId, channelId)] = Math.min(
-    salesLimit,
-    Math.max(0, Math.floor(Number(value) || 0))
-  );
+function setValue(productId, channelId, value) {
+  state.values[key(productId, channelId)] =
+    Math.max(0, Math.floor(Number(value) || 0));
 }
 
 function counterHtml(product, channel) {
@@ -53,21 +51,11 @@ function counterHtml(product, channel) {
     return `<div class="counter-note">${escapeHtml(limitValue)}</div>`;
   }
 
-  const salesLimit = typeof limitValue === "number"
-    ? limitValue
-    : Number.MAX_SAFE_INTEGER;
-  const maxAttribute = typeof limitValue === "number"
-    ? `max="${salesLimit}"`
-    : "";
-  const limitLabel = typeof limitValue === "number"
-    ? `上限${salesLimit}`
-    : "上限なし";
-
   return `
-    <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}" data-limit="${typeof limitValue === "number" ? salesLimit : ""}">
+    <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}">
       <button type="button" data-change="-10" aria-label="${escapeHtml(label)}を10減らす">−10</button>
       <button type="button" data-change="-1" aria-label="${escapeHtml(label)}を1減らす">−1</button>
-      <input type="number" min="0" ${maxAttribute} step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}（${limitLabel}）">
+      <input type="number" min="0" step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}">
       <button type="button" data-change="1" aria-label="${escapeHtml(label)}を1増やす">+1</button>
       <button type="button" data-change="10" aria-label="${escapeHtml(label)}を10増やす">+10</button>
     </div>
@@ -105,13 +93,10 @@ function renderPanels() {
   document.querySelectorAll(".counter").forEach((counter) => {
     const productId = counter.dataset.product;
     const channelId = counter.dataset.channel;
-    const salesLimit = counter.dataset.limit
-      ? Number(counter.dataset.limit)
-      : Number.MAX_SAFE_INTEGER;
     const input = counter.querySelector("input");
 
     input.addEventListener("input", () => {
-      setValue(productId, channelId, input.value, salesLimit);
+      setValue(productId, channelId, input.value);
       input.value = getValue(productId, channelId);
       updateReport();
     });
@@ -121,8 +106,7 @@ function renderPanels() {
         setValue(
           productId,
           channelId,
-          getValue(productId, channelId) + Number(button.dataset.change),
-          salesLimit
+          getValue(productId, channelId) + Number(button.dataset.change)
         );
         input.value = getValue(productId, channelId);
         updateReport();
