@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#173b33">
+    <meta name="description" content="商品の販売数を入力して、報告文を作成できる売上報告ツールです。">
+    <title>売上報告ツール</title>
+    <link rel="icon" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="control-deck">
+        <header class="app-header">
+          <span class="brand-number">SR / 01</span>
+          <h1>売上報告<br><em>ツール</em></h1>
+        </header>
+
+        <div class="report-meta">
+          <label>
+            <span>REPORT DATE</span>
+            日付
+            <input id="report-date" type="date">
+          </label>
+          <label>
+            <span>STAFF NAME</span>
+            名前
+            <input id="staff-name" type="text" autocomplete="name" placeholder="担当者名">
+          </label>
+        </div>
+
+        <div class="count-card">
+          <span>入力済み商品</span>
+          <p><strong id="copy-count">0</strong><small> 件</small></p>
+        </div>
+
+        <button id="reset-button" class="reset-button" type="button">すべてリセット</button>
+      </aside>
+
+      <section class="work-area">
+        <header class="work-header">
+          <div>
+            <p>SALES INPUT BOARD</p>
+            <h2>今日の販売数を入力</h2>
+          </div>
+          <p class="work-note"><span>HOW TO</span> 数字を直接入力、または左右のボタンで調整できます。</p>
+        </header>
+
+        <div id="menu-panels" class="menu-panels" aria-live="polite">
+          <p class="loading">商品情報を読み込んでいます…</p>
+        </div>
+
+        <section class="report-section" aria-labelledby="report-heading">
+          <div class="report-actions">
+            <div>
+              <span>GENERATED MESSAGE</span>
+              <h2 id="report-heading">報告文プレビュー</h2>
+            </div>
+            <div class="copy-action">
+              <span id="copy-status" role="status"></span>
+              <button id="copy-button" class="copy-button" type="button">報告文をコピー</button>
+            </div>
+          </div>
+          <textarea id="report-output" readonly>ここに報告文が表示されます</textarea>
+        </section>
+
+        <footer>
+          <span>PRODUCT MASTER</span>
+          商品の追加・変更は <code>products.json</code> で行えます。
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>

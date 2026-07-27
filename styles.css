@@ -1,0 +1,293 @@
+:root {
+  --paper: #f3efe5;
+  --paper-deep: #e8e1d2;
+  --card: #fffdf7;
+  --ink: #17251f;
+  --muted: #6f756e;
+  --green: #173b33;
+  --green-soft: #dce8df;
+  --orange: #e87043;
+  --gold: #d4a54d;
+  --blue: #4f7884;
+  --line: #d8d2c6;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    linear-gradient(90deg, transparent 49.9%, #ded8ca 50%, transparent 50.1%) 0 0 / 25% 100%,
+    var(--paper);
+  color: var(--ink);
+  font-family: Arial, "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+
+.app-shell {
+  width: min(100%, 1600px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 34px;
+}
+
+.control-deck {
+  position: sticky;
+  top: 24px;
+  height: calc(100vh - 48px);
+  min-height: 720px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 22px 55px #173b3329;
+}
+
+.control-deck::before {
+  content: "";
+  position: absolute;
+  right: -85px;
+  bottom: 100px;
+  width: 210px;
+  height: 210px;
+  border: 1px solid #ffffff22;
+  border-radius: 50%;
+  box-shadow: 0 0 0 36px #ffffff08, 0 0 0 72px #ffffff08;
+}
+
+.app-header { position: relative; z-index: 1; }
+.brand-number { display: block; color: #9fb6aa; font-size: 10px; font-weight: 800; letter-spacing: .2em; }
+.app-header h1 { margin: 42px 0 0; color: #fff; font: 600 43px/1.05 Georgia, "Yu Mincho", serif; letter-spacing: -.04em; }
+.app-header h1 em { color: #f4cf83; font-style: normal; }
+
+.report-meta {
+  position: relative;
+  z-index: 1;
+  margin-top: 34px;
+  padding-top: 24px;
+  display: grid;
+  gap: 17px;
+  border-top: 1px solid #547168;
+}
+
+.report-meta label { color: #e9efeb; font-size: 12px; font-weight: 700; }
+.report-meta label > span { display: block; margin-bottom: 5px; color: #8fa99c; font-size: 8px; letter-spacing: .18em; }
+.report-meta input {
+  width: 100%;
+  height: 40px;
+  margin-top: 7px;
+  padding: 0 11px;
+  border: 1px solid #789087;
+  border-radius: 0;
+  outline: none;
+  background: #f8f5ec;
+  color: var(--ink);
+}
+.report-meta input:focus { border-color: #f4cf83; box-shadow: 0 0 0 3px #f4cf8325; }
+
+.count-card {
+  position: relative;
+  z-index: 1;
+  margin-top: 20px;
+  padding: 14px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0e2d27;
+}
+.count-card > span { color: #b6c7be; font-size: 11px; }
+.count-card p { margin: 0; }
+.count-card strong { color: #f4cf83; font: 600 29px Georgia, serif; }
+.count-card small { color: #b6c7be; font-size: 10px; }
+
+.reset-button {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 44px;
+  margin-top: auto;
+  border: 1px solid #789087;
+  background: transparent;
+  color: #eff5f1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.reset-button:hover { border-color: #f4cf83; color: #f4cf83; }
+
+.work-area { min-width: 0; padding: 18px 0 40px; }
+
+.work-header {
+  min-height: 128px;
+  padding: 8px 12px 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  border-bottom: 1px solid #bfb8aa;
+}
+.work-header p { margin: 0 0 7px; color: var(--orange); font-size: 9px; font-weight: 800; letter-spacing: .22em; }
+.work-header h2 { margin: 0; font: 600 clamp(30px, 4vw, 50px)/1 Georgia, "Yu Mincho", serif; letter-spacing: -.04em; }
+.work-header .work-note { max-width: 320px; margin: 0; color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: 0; line-height: 1.65; }
+.work-note span { display: block; margin-bottom: 4px; color: var(--green); font-size: 8px; font-weight: 800; letter-spacing: .2em; }
+
+.menu-panels { padding-top: 28px; display: grid; gap: 25px; }
+
+.menu-panel {
+  position: relative;
+  min-width: 0;
+  padding: 0 28px 28px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  box-shadow: 0 12px 34px #3b332416;
+}
+
+.menu-panel::before {
+  content: "01";
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  color: #c8c1b5;
+  font: 700 12px Georgia, serif;
+  letter-spacing: .12em;
+}
+.menu-panel:nth-child(2)::before { content: "02"; }
+
+.menu-panel h2 {
+  width: fit-content;
+  margin: 0 0 20px;
+  padding: 22px 36px 18px 0;
+  border-bottom: 3px solid var(--orange);
+  color: var(--green);
+  font: 600 25px Georgia, "Yu Mincho", serif;
+  letter-spacing: .02em;
+}
+.menu-panel:nth-child(2) h2 { border-bottom-color: var(--gold); }
+
+.table-scroll { overflow-x: auto; border: 1px solid #ded8cc; }
+.menu-table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; background: #fff; }
+.menu-table th { height: 42px; padding: 8px 6px; border-right: 1px solid #ffffff24; background: var(--green); color: #fff; text-align: center; font-size: 12px; letter-spacing: .03em; }
+.menu-table th:first-child { width: 48%; text-align: left; padding-left: 17px; }
+.menu-table th:not(:first-child) { width: 52%; }
+.menu-table th:nth-child(2) { box-shadow: inset 0 -4px var(--orange); }
+
+.menu-table td { height: 45px; padding: 7px 10px; border-bottom: 1px solid #e5e0d7; background: #fff; vertical-align: middle; }
+.menu-table tr:nth-child(even) td { background: #faf8f2; }
+.menu-table tr:last-child td { border-bottom: 0; }
+.product-name { padding-left: 16px !important; color: #29352f; font-size: 13px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
+.product-name small { display: block; margin-top: 3px; color: #8a8e89; font-size: 8px; font-weight: 700; letter-spacing: .08em; }
+
+.counter { display: grid; grid-template-columns: 26px 26px minmax(42px, 54px) 26px 26px; justify-content: center; align-items: stretch; gap: 3px; }
+.counter button {
+  height: 28px;
+  padding: 0;
+  border: 1px solid #b8b3a9;
+  border-radius: 0;
+  background: #fff;
+  color: #4d514e;
+  font-size: 9px;
+  font-weight: 800;
+}
+.counter button:hover { border-color: var(--orange); background: #fff3e9; color: #a33e19; }
+.counter button:focus-visible, .counter input:focus-visible { outline: 3px solid #e9b85f; outline-offset: 1px; }
+.counter input {
+  width: 100%;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid #7e827e;
+  border-radius: 0;
+  background: #fffef9;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  appearance: textfield;
+}
+.counter input::-webkit-inner-spin-button, .counter input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+
+.loading, .error-message {
+  min-height: 150px;
+  margin: 0;
+  padding: 58px 24px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  text-align: center;
+}
+.error-message { color: #a12f1c; background: #fff0ea; }
+.error-message strong { display: block; color: #7e2d1d; }
+.error-message p { margin: 10px 0 18px; color: #755f58; font-size: 12px; font-weight: 500; }
+.file-load-button {
+  width: fit-content;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: block;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.file-load-button input { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+
+.report-section {
+  margin-top: 28px;
+  padding: 28px;
+  background: #1d2925;
+  color: #fff;
+}
+.report-actions { margin-bottom: 17px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.report-actions span { color: #8fa69b; font-size: 8px; font-weight: 800; letter-spacing: .2em; }
+.report-actions h2 { margin: 5px 0 0; font: 500 22px Georgia, "Yu Mincho", serif; }
+.copy-action { display: flex; align-items: center; gap: 13px; }
+#copy-status { color: #f4cf83; font-size: 10px; letter-spacing: 0; }
+.copy-button { min-height: 40px; padding: 0 18px; border: 0; background: var(--orange); color: white; font-size: 11px; font-weight: 800; letter-spacing: .05em; }
+.copy-button:hover { background: #f18056; }
+#report-output { width: 100%; min-height: 150px; padding: 15px; border: 1px solid #50605a; outline: none; resize: vertical; background: #f8f6ee; color: var(--ink); font-size: 13px; line-height: 1.65; font-weight: 500; }
+#report-output:focus { border-color: #f4cf83; }
+
+footer { padding: 18px 3px 0; display: flex; justify-content: flex-end; gap: 12px; color: var(--muted); font-size: 10px; }
+footer > span { color: var(--green); font-weight: 800; letter-spacing: .15em; }
+footer code { padding: 2px 5px; background: #e7e0d2; }
+
+@media (max-width: 1000px) {
+  .app-shell { padding: 20px; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; }
+  .control-deck { padding: 24px; }
+  .app-header h1 { font-size: 36px; }
+}
+
+@media (max-width: 760px) {
+  body { background: var(--paper); }
+  .app-shell { padding: 12px; display: block; }
+  .control-deck { position: relative; top: auto; width: 100%; height: auto; min-height: 0; padding: 24px; }
+  .control-deck::before { display: none; }
+  .app-header h1 br { display: none; }
+  .app-header h1 { margin-top: 24px; font-size: 34px; }
+  .app-header h1 em { margin-left: 8px; }
+  .report-meta { margin-top: 22px; grid-template-columns: 1fr 1fr; }
+  .count-card { margin-top: 16px; }
+  .reset-button { margin-top: 16px; }
+  .work-area { padding-top: 15px; }
+  .work-header { min-height: 110px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
+  .menu-panel { padding-inline: 12px; }
+  .report-actions { align-items: flex-start; flex-direction: column; }
+  .copy-action { width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 480px) {
+  .report-meta { grid-template-columns: 1fr; }
+  .menu-panel h2 { font-size: 22px; }
+  .report-section { padding: 20px 14px; }
+  footer { flex-direction: column; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; }
+}
