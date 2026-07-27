@@ -1,7 +1,8 @@
 "use strict";
 
 const CHANNELS = [
-  { id: "sales", label: "販売数" }
+  { id: "inside", label: "店内販売", limitKey: "店内" },
+  { id: "mobile", label: "移動販売", limitKey: "移動販売" }
 ];
 
 const state = {
@@ -11,7 +12,6 @@ const state = {
 
 const elements = {
   date: document.querySelector("#report-date"),
-  staff: document.querySelector("#staff-name"),
   panels: document.querySelector("#menu-panels"),
   count: document.querySelector("#copy-count"),
   output: document.querySelector("#report-output"),
@@ -46,13 +46,28 @@ function setValue(productId, channelId, value, salesLimit) {
 function counterHtml(product, channel) {
   const value = getValue(product.id, channel.id);
   const productName = product["商品名"];
-  const salesLimit = product["販売上限"];
+  const limitValue = product[channel.limitKey];
   const label = `${productName}の${channel.label}`;
+
+  if (typeof limitValue === "string" && limitValue !== "上限なし") {
+    return `<div class="counter-note">${escapeHtml(limitValue)}</div>`;
+  }
+
+  const salesLimit = typeof limitValue === "number"
+    ? limitValue
+    : Number.MAX_SAFE_INTEGER;
+  const maxAttribute = typeof limitValue === "number"
+    ? `max="${salesLimit}"`
+    : "";
+  const limitLabel = typeof limitValue === "number"
+    ? `上限${salesLimit}`
+    : "上限なし";
+
   return `
-    <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}" data-limit="${salesLimit}">
+    <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}" data-limit="${typeof limitValue === "number" ? salesLimit : ""}">
       <button type="button" data-change="-10" aria-label="${escapeHtml(label)}を10減らす">−10</button>
       <button type="button" data-change="-1" aria-label="${escapeHtml(label)}を1減らす">−1</button>
-      <input type="number" min="0" max="${salesLimit}" step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}（上限${salesLimit}）">
+      <input type="number" min="0" ${maxAttribute} step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}（${limitLabel}）">
       <button type="button" data-change="1" aria-label="${escapeHtml(label)}を1増やす">+1</button>
       <button type="button" data-change="10" aria-label="${escapeHtml(label)}を10増やす">+10</button>
     </div>
@@ -76,7 +91,7 @@ function renderPanels() {
               <tr>
                 <td class="product-name">
                   ${escapeHtml(product["商品名"])}
-                  <small>上限 ${product["販売上限"]}</small>
+                  <small>店内 ${escapeHtml(product["店内"])} ／ 移動販売 ${escapeHtml(product["移動販売"])}</small>
                 </td>
                 ${CHANNELS.map((channel) => `<td>${counterHtml(product, channel)}</td>`).join("")}
               </tr>
@@ -90,7 +105,9 @@ function renderPanels() {
   document.querySelectorAll(".counter").forEach((counter) => {
     const productId = counter.dataset.product;
     const channelId = counter.dataset.channel;
-    const salesLimit = Number(counter.dataset.limit);
+    const salesLimit = counter.dataset.limit
+      ? Number(counter.dataset.limit)
+      : Number.MAX_SAFE_INTEGER;
     const input = counter.querySelector("input");
 
     input.addEventListener("input", () => {
@@ -119,7 +136,9 @@ function activeProducts() {
     group.products
       .map((product) => ({
         name: product["商品名"],
-        sales: getValue(product.id, "sales")
+        inside: getValue(product.id, "inside"),
+        mobile: getValue(product.id, "mobile"),
+        sales: getValue(product.id, "inside") + getValue(product.id, "mobile")
       }))
       .filter((product) => product.sales)
   );
@@ -149,7 +168,6 @@ function resetAll() {
   if (!window.confirm("すべての入力内容をリセットしますか？")) return;
   state.values = {};
   elements.date.value = localDate();
-  elements.staff.value = "";
   renderPanels();
   updateReport();
 }
@@ -188,13 +206,17 @@ function normalizeProductData(data) {
 
   if (!Array.isArray(groups)) throw new Error("商品グループがありません");
 
+  const isValidLimit = (value) =>
+    (Number.isInteger(value) && value >= 0) ||
+    (typeof value === "string" && value.trim().length > 0);
+
   const productsAreValid = groups.every((group) =>
       Array.isArray(group.products) &&
       group.products.every((product) =>
         typeof product.id === "string" &&
         typeof product["商品名"] === "string" &&
-        Number.isInteger(product["販売上限"]) &&
-        product["販売上限"] >= 0
+        isValidLimit(product["店内"]) &&
+        isValidLimit(product["移動販売"])
       )
   );
 
@@ -230,7 +252,7 @@ function showProductLoadFallback() {
       applyProductData(JSON.parse(await file.text()));
     } catch {
       elements.panels.querySelector(".error-message p").textContent =
-        "選択したファイルの形式が正しくありません。id・商品名・販売上限をご確認ください。";
+        "選択したファイルの形式が正しくありません。id・商品名・店内・移動販売をご確認ください。";
     }
   });
 }
@@ -247,7 +269,6 @@ async function loadProducts() {
 
 elements.date.value = localDate();
 elements.date.addEventListener("change", updateReport);
-elements.staff.addEventListener("input", updateReport);
 document.querySelector("#reset-button").addEventListener("click", resetAll);
 elements.copyButton.addEventListener("click", copyReport);
 
