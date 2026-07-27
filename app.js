@@ -128,6 +128,16 @@ function activeProducts() {
   );
 }
 
+function displayWidth(text) {
+  return [...text].reduce((width, character) => {
+    const code = character.codePointAt(0);
+    const isHalfWidth =
+      code <= 0x7f ||
+      (code >= 0xff61 && code <= 0xff9f);
+    return width + (isHalfWidth ? 1 : 2);
+  }, 0);
+}
+
 function createReport() {
   const active = activeProducts();
   const [, month = "", day = ""] = elements.date.value.split("-");
@@ -135,9 +145,15 @@ function createReport() {
 
   if (!active.length) return reportDate;
 
-  const lines = active.map(
-    (product) => `${product.name}　　　　　${product.sales}`
+  const nameColumnWidth = Math.max(
+    ...active.map((product) => displayWidth(product.name))
   );
+  const lines = active.map((product) => {
+    const spacing = " ".repeat(
+      nameColumnWidth - displayWidth(product.name) + 4
+    );
+    return `${product.name}${spacing}${product.sales}`;
+  });
 
   return `${reportDate}\n${lines.join("\n")}`;
 }
