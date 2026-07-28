@@ -53,9 +53,7 @@ function counterHtml(product, channel) {
 
   return `
     <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}">
-      <button type="button" data-change="-100" aria-label="${escapeHtml(label)}を100減らす">−100</button>
-      <button type="button" data-change="-10" aria-label="${escapeHtml(label)}を10減らす">−10</button>
-      <button type="button" data-change="-1" aria-label="${escapeHtml(label)}を1減らす">−1</button>
+      <button class="counter-reset" type="button" data-reset aria-label="${escapeHtml(label)}を0に戻す">リセット</button>
       <input type="number" min="0" step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}">
       <button type="button" data-change="1" aria-label="${escapeHtml(label)}を1増やす">+1</button>
       <button type="button" data-change="10" aria-label="${escapeHtml(label)}を10増やす">+10</button>
@@ -105,11 +103,10 @@ function renderPanels() {
 
     counter.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
-        setValue(
-          productId,
-          channelId,
-          getValue(productId, channelId) + Number(button.dataset.change)
-        );
+        const nextValue = button.hasAttribute("data-reset")
+          ? 0
+          : getValue(productId, channelId) + Number(button.dataset.change);
+        setValue(productId, channelId, nextValue);
         input.value = getValue(productId, channelId);
         updateReport();
       });

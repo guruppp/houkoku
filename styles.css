@@ -174,47 +174,59 @@ button { cursor: pointer; }
 .menu-panel:nth-child(2) h2 { border-bottom-color: var(--gold); }
 
 .table-scroll { overflow-x: auto; border: 1px solid #ded8cc; }
-.menu-table { width: 100%; min-width: 720px; border-collapse: collapse; table-layout: fixed; background: #fff; }
+.menu-table { width: 100%; min-width: 840px; border-collapse: collapse; table-layout: fixed; background: #fff; }
 .menu-table th { height: 42px; padding: 8px 6px; border-right: 1px solid #ffffff24; background: var(--green); color: #fff; text-align: center; font-size: 12px; letter-spacing: .03em; }
-.menu-table th:first-child { width: 36%; text-align: left; padding-left: 17px; }
-.menu-table th:not(:first-child) { width: 32%; }
+.menu-table th:first-child { width: 32%; text-align: left; padding-left: 17px; }
+.menu-table th:not(:first-child) { width: 34%; }
 .menu-table th:nth-child(2) { box-shadow: inset 0 -4px var(--orange); }
 .menu-table th:nth-child(3) { box-shadow: inset 0 -4px var(--gold); }
 
-.menu-table td { height: 45px; padding: 7px 10px; border-bottom: 1px solid #e5e0d7; background: #fff; vertical-align: middle; }
+.menu-table td { height: 52px; padding: 9px 12px; border-bottom: 1px solid #e5e0d7; background: #fff; vertical-align: middle; }
 .menu-table tr:nth-child(even) td { background: #faf8f2; }
 .menu-table tr:last-child td { border-bottom: 0; }
 .product-name { padding-left: 16px !important; color: #29352f; font-size: 13px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
 .product-name small { display: block; margin-top: 3px; color: #8a8e89; font-size: 8px; font-weight: 700; letter-spacing: .08em; }
 
-.counter { display: grid; grid-template-columns: 26px 26px minmax(42px, 54px) 26px 26px; justify-content: center; align-items: stretch; gap: 3px; }
+.counter {
+  width: min(100%, 240px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 58px minmax(52px, 64px) 34px 38px 42px;
+  justify-content: center;
+  align-items: stretch;
+  gap: 4px;
+}
 .counter button {
-  height: 28px;
+  height: 32px;
   padding: 0;
   border: 1px solid #b8b3a9;
-  border-radius: 0;
+  border-radius: 3px;
   background: #fff;
   color: #4d514e;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 800;
 }
 .counter button:hover { border-color: var(--orange); background: #fff3e9; color: #a33e19; }
+.counter .counter-reset { background: #f0ece3; color: #655e54; font-size: 9px; }
+.counter .counter-reset:hover { border-color: var(--green); background: var(--green-soft); color: var(--green); }
 .counter button:focus-visible, .counter input:focus-visible { outline: 3px solid #e9b85f; outline-offset: 1px; }
 .counter input {
   width: 100%;
-  height: 28px;
+  height: 32px;
   padding: 2px;
   border: 1px solid #7e827e;
-  border-radius: 0;
+  border-radius: 3px;
   background: #fffef9;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   appearance: textfield;
 }
 .counter input::-webkit-inner-spin-button, .counter input::-webkit-outer-spin-button { appearance: none; margin: 0; }
 .counter-note {
-  min-height: 28px;
+  width: min(100%, 220px);
+  min-height: 32px;
+  margin: 0 auto;
   padding: 6px 10px;
   display: grid;
   place-items: center;
