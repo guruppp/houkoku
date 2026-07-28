@@ -59,7 +59,7 @@ function counterHtml(product, channel) {
       <input type="number" min="0" step="1" inputmode="numeric" value="${value}" aria-label="${escapeHtml(label)}">
       <button type="button" data-change="1" aria-label="${escapeHtml(label)}を1増やす">+1</button>
       <button type="button" data-change="10" aria-label="${escapeHtml(label)}を10増やす">+10</button>
-      <button type="button" data-change="100" aria-label="${escapeHtml(label)}を100増やす">+10</button>
+      <button type="button" data-change="100" aria-label="${escapeHtml(label)}を100増やす">+100</button>
     </div>
   `;
 }
