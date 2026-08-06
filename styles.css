@@ -359,3 +359,4 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; transition: none !important; }
 }
+/* test */
