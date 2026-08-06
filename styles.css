@@ -304,6 +304,47 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
   .menu-panel { padding-inline: 12px; }
+  .table-scroll { overflow: visible; border: 0; }
+  .menu-table { min-width: 0; display: block; background: transparent; }
+  .menu-table thead { display: none; }
+  .menu-table tbody { display: grid; gap: 12px; }
+  .menu-table tr {
+    display: block;
+    overflow: hidden;
+    border: 1px solid #ded8cc;
+    background: #fff;
+  }
+  .menu-table td,
+  .menu-table tr:nth-child(even) td {
+    width: 100%;
+    height: auto;
+    padding: 12px !important;
+    display: block;
+    border-bottom: 1px solid #e5e0d7;
+    background: #fff;
+  }
+  .menu-table td:last-child { border-bottom: 0; }
+  .menu-table .product-name {
+    padding: 15px 12px !important;
+    background: #f5f0e6 !important;
+    font-size: 15px;
+  }
+  .menu-table td:not(.product-name)::before {
+    margin-bottom: 8px;
+    display: block;
+    color: var(--red);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .08em;
+  }
+  .menu-table td:nth-child(2)::before { content: "店内販売"; }
+  .menu-table td:nth-child(3)::before { content: "移動販売"; }
+  .counter {
+    width: 100%;
+    max-width: none;
+    grid-template-columns: 52px minmax(42px, 1fr) 34px 38px 42px;
+  }
+  .counter-note { width: 100%; max-width: none; }
   .report-actions { align-items: flex-start; flex-direction: column; }
   .copy-action { width: 100%; justify-content: space-between; }
 }
