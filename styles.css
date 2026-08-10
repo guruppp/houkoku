@@ -96,7 +96,8 @@ button { cursor: pointer; }
 }
 .report-meta input:focus { border-color: #f4cf83; box-shadow: 0 0 0 3px #f4cf8325; }
 
-.count-card {
+.count-card,
+.total-card {
   position: relative;
   z-index: 1;
   margin-top: 20px;
@@ -106,10 +107,15 @@ button { cursor: pointer; }
   justify-content: space-between;
   background: #0e2d27;
 }
-.count-card > span { color: #b6c7be; font-size: 11px; }
-.count-card p { margin: 0; }
-.count-card strong { color: #f4cf83; font: 600 29px Georgia, serif; }
-.count-card small { color: #b6c7be; font-size: 10px; }
+.total-card { margin-top: 8px; background: #24483f; }
+.count-card > span,
+.total-card > span { color: #b6c7be; font-size: 11px; }
+.count-card p,
+.total-card p { margin: 0; }
+.count-card strong,
+.total-card strong { color: #f4cf83; font: 600 29px Georgia, serif; }
+.count-card small,
+.total-card small { color: #b6c7be; font-size: 10px; }
 
 .reset-button {
   position: relative;

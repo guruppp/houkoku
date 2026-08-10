@@ -14,6 +14,7 @@ const elements = {
   date: document.querySelector("#report-date"),
   panels: document.querySelector("#menu-panels"),
   count: document.querySelector("#copy-count"),
+  total: document.querySelector("#sales-total"),
   output: document.querySelector("#report-output"),
   copyButton: document.querySelector("#copy-button"),
   copyStatus: document.querySelector("#copy-status")
@@ -39,6 +40,10 @@ function getValue(productId, channelId) {
 function setValue(productId, channelId, value) {
   state.values[key(productId, channelId)] =
     Math.max(0, Math.floor(Number(value) || 0));
+}
+
+function formatNumber(value) {
+  return new Intl.NumberFormat("ja-JP").format(value);
 }
 
 function counterHtml(product, channel) {
@@ -79,7 +84,7 @@ function renderPanels() {
               <tr>
                 <td class="product-name">
                   ${escapeHtml(product["商品名"])}
-                  <small>店内 ${escapeHtml(product["店内"])} ／ 移動販売 ${escapeHtml(product["移動販売"])}</small>
+                  <small>価格 ${formatNumber(product["価格"])}円 ／ 店内 ${escapeHtml(product["店内"])} ／ 移動販売 ${escapeHtml(product["移動販売"])}</small>
                 </td>
                 ${CHANNELS.map((channel) => `<td>${counterHtml(product, channel)}</td>`).join("")}
               </tr>
@@ -121,6 +126,7 @@ function activeProducts() {
         name: product["商品名"],
         inside: getValue(product.id, "inside"),
         mobile: getValue(product.id, "mobile"),
+        price: product["価格"],
         sales: getValue(product.id, "inside") + getValue(product.id, "mobile")
       }))
       .filter((product) => product.sales)
@@ -160,6 +166,9 @@ function createReport() {
 function updateReport() {
   const active = activeProducts();
   elements.count.textContent = active.length;
+  elements.total.textContent = formatNumber(
+    active.reduce((total, product) => total + product.sales * product.price, 0)
+  );
   elements.output.value = active.length ? createReport() : "ここに報告文が表示されます";
 }
 
@@ -214,6 +223,8 @@ function normalizeProductData(data) {
       group.products.every((product) =>
         typeof product.id === "string" &&
         typeof product["商品名"] === "string" &&
+        Number.isInteger(product["価格"]) &&
+        product["価格"] >= 0 &&
         isValidLimit(product["店内"]) &&
         isValidLimit(product["移動販売"])
       )
@@ -251,7 +262,7 @@ function showProductLoadFallback() {
       applyProductData(JSON.parse(await file.text()));
     } catch {
       elements.panels.querySelector(".error-message p").textContent =
-        "選択したファイルの形式が正しくありません。id・商品名・店内・移動販売をご確認ください。";
+        "選択したファイルの形式が正しくありません。id・商品名・価格・店内・移動販売をご確認ください。";
     }
   });
 }
