@@ -118,6 +118,7 @@ button { cursor: pointer; }
 .total-card small { color: #b6c7be; font-size: 10px; }
 
 .menu-switch-button,
+.effect-page-link,
 .reset-button {
   position: relative;
   z-index: 1;
@@ -129,7 +130,17 @@ button { cursor: pointer; }
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .08em;
+  text-decoration: none;
 }
+.effect-page-link {
+  margin-top: 8px;
+  display: grid;
+  place-items: center;
+  border-color: #9fb6aa;
+  background: #0e2d27;
+  color: #eff5f1;
+}
+.effect-page-link:hover { border-color: #f4cf83; color: #f4cf83; }
 .current-menu-label {
   position: relative;
   z-index: 1;
@@ -325,6 +336,7 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .count-card { margin-top: 16px; }
   .current-menu-label { margin-top: 18px; }
   .menu-switch-button,
+  .effect-page-link,
   .reset-button { margin-top: 8px; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }

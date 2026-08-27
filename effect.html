@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ラーメン・ドリンク早見表</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;background:#f5f3ef;color:#252525}
+header{background:linear-gradient(135deg,#1d1d1d,#3d342c);color:white;padding:28px 18px;text-align:center}
+header h1{margin:0;font-size:clamp(25px,5vw,42px)}
+header p{margin:8px 0 0;color:#ddd}
+.back-link{width:fit-content;margin:0 auto 18px;padding:10px 16px;display:block;border:1px solid #ffffff88;border-radius:10px;color:#fff;text-decoration:none;font-size:14px;font-weight:700}
+.back-link:hover{border-color:#ffe7a8;background:#ffffff12;color:#ffe7a8}
+main{max-width:1100px;margin:0 auto;padding:22px 14px 45px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input,select{border:1px solid #d5d0c8;background:white;border-radius:12px;padding:12px 14px;font-size:15px}
+input{flex:1;min-width:220px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px}
+.section-title h2{margin:0;font-size:24px}
+.count{font-size:13px;color:#777}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px}
+.card{background:white;border:1px solid #e5e0d8;border-radius:16px;padding:17px;box-shadow:0 3px 12px #0000000d;transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 7px 20px #00000012}
+.name{font-size:20px;font-weight:800;margin-bottom:10px}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;background:#eee8df;color:#594d41}
+.badge.special{background:#ffe7a8;color:#765400}
+.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}
+.label{color:#777;font-size:13px}
+.value{font-weight:700;text-align:right}
+.effect{line-height:1.65}
+.price{font-size:19px}
+.empty{display:none;text-align:center;padding:35px;color:#777}
+footer{text-align:center;color:#888;font-size:12px;padding:15px}
+@media(max-width:520px){main{padding:15px 10px}.grid{grid-template-columns:1fr}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="back-link" href="index.html">← 売上報告ツールに戻る</a>
+  <h1>🍜 ラーメン・ドリンク早見表</h1>
+  <p>価格・販売条件・効果をサッと確認</p>
+</header>
+<main>
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="🔎 商品名・効果で検索…">
+    <select id="category">
+      <option value="all">すべて</option>
+      <option value="ramen">ラーメン</option>
+      <option value="drink">ドリンク</option>
+    </select>
+    <select id="sort">
+      <option value="default">おすすめ順</option>
+      <option value="priceAsc">価格が安い順</option>
+      <option value="priceDesc">価格が高い順</option>
+    </select>
+  </div>
+
+  <section>
+    <div class="section-title"><h2>🍜 ラーメン</h2><span class="count" id="ramenCount"></span></div>
+    <div class="grid" id="ramenGrid"></div>
+  </section>
+
+  <section>
+    <div class="section-title"><h2>🥤 ドリンク</h2><span class="count" id="drinkCount"></span></div>
+    <div class="grid" id="drinkGrid"></div>
+  </section>
+
+  <div class="empty" id="empty">該当する商品がありません。</div>
+</main>
+<footer>※価格・効果・販売条件は入力された情報をそのまま整理しています。 created by 愛辺リル</footer>
+
+<script>
+const items=[
+ {cat:"ramen",name:"豪快 麻婆ラーメン",price:700000,priceText:"70万円",condition:"チーフ以上販売可能",effect:"アーマーリジェネ回復（大） / アーマー（中）"},
+ {cat:"ramen",name:"がんばれラーメン",price:550000,priceText:"55万円",condition:"チーフ以上販売可能",effect:"HPリジェネ回復（大） / HP（中）"},
+ {cat:"ramen",name:"スペシャルラーメン",price:250000,priceText:"25万円",condition:"—",effect:"アーマー（中） / HP（中） / 止血"},
+ {cat:"ramen",name:"ゆず塩香る",price:30000,priceText:"3万円",condition:"—",effect:"空腹・水分（中）"},
+ {cat:"ramen",name:"ラーメン頑張れ屋 即席麺",price:60000,priceText:"6万円",condition:"—",effect:"空腹・水分・ストレス（中）"},
+ {cat:"ramen",name:"うさちゃんらーめん",price:15000,priceText:"1.5万円",condition:"—",effect:"ストレス（中）"},
+ {cat:"drink",name:"特製pipiBull",price:45000,priceText:"4.5万円",condition:"—",effect:"足早（大）"},
+ {cat:"drink",name:"テンペスト",price:800000,priceText:"80万円",condition:"ラーメンマスター以上販売可能",effect:"スタミナ（最強）"},
+ {cat:"drink",name:"レザン",price:350000,priceText:"35万円",condition:"—",effect:"アーマー（大）"},
+ {cat:"drink",name:"ペスカ",price:160000,priceText:"16万円",condition:"—",effect:"スタミナ（大）"},
+ {cat:"drink",name:"マーレ",price:60000,priceText:"6万円",condition:"—",effect:"泳ぎ早（特大）"},
+ {cat:"drink",name:"ピエロ",price:3500,priceText:"3,500円",condition:"—",effect:"止血"}
+];
+
+const yen=n=>n.toLocaleString("ja-JP")+"円";
+const search=document.getElementById("search"), category=document.getElementById("category"), sort=document.getElementById("sort");
+const ramenGrid=document.getElementById("ramenGrid"), drinkGrid=document.getElementById("drinkGrid"), empty=document.getElementById("empty");
+
+function card(x){
+ return `<article class="card">
+   <div class="name">${x.name}</div>
+   <div class="badges">
+     ${x.condition!=="—"?`<span class="badge special">🔓 ${x.condition}</span>`:""}
+     <span class="badge">${x.cat==="ramen"?"ラーメン":"ドリンク"}</span>
+   </div>
+   <div class="row"><span class="label">価格</span><span class="value price">${x.priceText}</span></div>
+   <div class="row"><span class="label">効果</span><span class="value effect">${x.effect}</span></div>
+ </article>`;
+}
+function render(){
+ const q=search.value.trim().toLowerCase();
+ let arr=items.filter(x=>{
+   const okCat=category.value==="all"||x.cat===category.value;
+   const text=(x.name+" "+x.effect+" "+x.condition).toLowerCase();
+   return okCat && text.includes(q);
+ });
+ if(sort.value==="priceAsc") arr.sort((a,b)=>a.price-b.price);
+ if(sort.value==="priceDesc") arr.sort((a,b)=>b.price-a.price);
+ const ramen=arr.filter(x=>x.cat==="ramen"), drink=arr.filter(x=>x.cat==="drink");
+ ramenGrid.innerHTML=ramen.map(card).join("");
+ drinkGrid.innerHTML=drink.map(card).join("");
+ document.getElementById("ramenCount").textContent=`${ramen.length}件`;
+ document.getElementById("drinkCount").textContent=`${drink.length}件`;
+ empty.style.display=arr.length?"none":"block";
+}
+[search,category,sort].forEach(el=>el.addEventListener("input",render));
+render();
+</script>
+</body>
+</html>
