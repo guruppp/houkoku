@@ -117,12 +117,12 @@ button { cursor: pointer; }
 .count-card small,
 .total-card small { color: #b6c7be; font-size: 10px; }
 
+.menu-switch-button,
 .reset-button {
   position: relative;
   z-index: 1;
   width: 100%;
   min-height: 44px;
-  margin-top: auto;
   border: 1px solid #789087;
   background: transparent;
   color: #eff5f1;
@@ -130,6 +130,23 @@ button { cursor: pointer; }
   font-weight: 800;
   letter-spacing: .08em;
 }
+.current-menu-label {
+  position: relative;
+  z-index: 1;
+  margin: auto 0 8px;
+  color: #b6c7be;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+.menu-switch-button {
+  border-color: #f4cf83;
+  background: #f4cf83;
+  color: #173b33;
+}
+.menu-switch-button:hover:not(:disabled) { background: #ffe0a0; }
+.menu-switch-button:disabled { cursor: not-allowed; opacity: .6; }
+.reset-button { margin-top: 8px; }
 .reset-button:hover { border-color: #f4cf83; color: #f4cf83; }
 
 .work-area { min-width: 0; padding: 18px 0 40px; }
@@ -306,7 +323,9 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .app-header h1 em { margin-left: 8px; }
   .report-meta { margin-top: 22px; }
   .count-card { margin-top: 16px; }
-  .reset-button { margin-top: 16px; }
+  .current-menu-label { margin-top: 18px; }
+  .menu-switch-button,
+  .reset-button { margin-top: 8px; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
   .menu-panel { padding-inline: 12px; }

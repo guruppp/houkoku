@@ -7,7 +7,16 @@ const CHANNELS = [
 
 const state = {
   groups: [],
-  values: {}
+  values: {},
+  currentMenu: "standard",
+  menus: {
+    standard: null,
+    newProducts: null
+  },
+  valuesByMenu: {
+    standard: {},
+    newProducts: {}
+  }
 };
 
 const elements = {
@@ -15,6 +24,9 @@ const elements = {
   panels: document.querySelector("#menu-panels"),
   count: document.querySelector("#copy-count"),
   total: document.querySelector("#sales-total"),
+  menuSwitchButton: document.querySelector("#menu-switch-button"),
+  currentMenuLabel: document.querySelector("#current-menu-label"),
+  productMasterFile: document.querySelector("#product-master-file"),
   output: document.querySelector("#report-output"),
   copyButton: document.querySelector("#copy-button"),
   copyStatus: document.querySelector("#copy-status")
@@ -175,6 +187,7 @@ function updateReport() {
 function resetAll() {
   if (!window.confirm("すべての入力内容をリセットしますか？")) return;
   state.values = {};
+  state.valuesByMenu[state.currentMenu] = state.values;
   elements.date.value = localDate();
   renderPanels();
   updateReport();
@@ -234,10 +247,38 @@ function normalizeProductData(data) {
   return groups;
 }
 
-function applyProductData(data) {
-  state.groups = normalizeProductData(data);
+function applyProductData(data, menuId = "standard") {
+  state.menus[menuId] = normalizeProductData(data);
+  state.currentMenu = menuId;
+  state.groups = state.menus[menuId];
+  state.values = state.valuesByMenu[menuId];
   renderPanels();
   updateReport();
+}
+
+function switchMenu() {
+  const nextMenu = state.currentMenu === "standard" ? "newProducts" : "standard";
+  if (!state.menus[nextMenu]) return;
+
+  state.currentMenu = nextMenu;
+  state.groups = state.menus[nextMenu];
+  state.values = state.valuesByMenu[nextMenu];
+
+  const isNewMenu = nextMenu === "newProducts";
+  elements.currentMenuLabel.textContent = isNewMenu
+    ? "現在：新商品メニュー表"
+    : "現在：通常メニュー表";
+  elements.menuSwitchButton.textContent = isNewMenu
+    ? "通常メニュー表に戻る"
+    : "新商品メニュー表に移動";
+  elements.menuSwitchButton.setAttribute("aria-pressed", String(isNewMenu));
+  elements.productMasterFile.textContent = isNewMenu
+    ? "products-new.json"
+    : "products.json";
+
+  renderPanels();
+  updateReport();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function showProductLoadFallback() {
@@ -269,9 +310,24 @@ function showProductLoadFallback() {
 
 async function loadProducts() {
   try {
-    const response = await fetch("products.json", { cache: "no-store" });
-    if (!response.ok) throw new Error();
-    applyProductData(await response.json());
+    const loadFile = async (filename) => {
+      const response = await fetch(filename, { cache: "no-store" });
+      if (!response.ok) throw new Error(`${filename}を読み込めませんでした`);
+      return response.json();
+    };
+
+    const standardData = await loadFile("products.json");
+    applyProductData(standardData, "standard");
+
+    try {
+      state.menus.newProducts = normalizeProductData(
+        await loadFile("products-new.json")
+      );
+      elements.menuSwitchButton.disabled = false;
+    } catch {
+      elements.menuSwitchButton.textContent = "新商品メニュー表を読み込めません";
+      elements.menuSwitchButton.disabled = true;
+    }
   } catch {
     showProductLoadFallback();
   }
@@ -280,6 +336,7 @@ async function loadProducts() {
 elements.date.value = localDate();
 elements.date.addEventListener("change", updateReport);
 document.querySelector("#reset-button").addEventListener("click", resetAll);
+elements.menuSwitchButton.addEventListener("click", switchMenu);
 elements.copyButton.addEventListener("click", copyReport);
 
 loadProducts();

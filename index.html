@@ -7,8 +7,8 @@
     <meta name="description" content="商品の販売数を入力して、報告文を作成できる売上報告ツールです。">
     <title>売上報告ツール</title>
     <link rel="icon" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css">
-    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260827">
+    <script src="app.js?v=20260827" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -36,6 +36,8 @@
           <p><strong id="sales-total">0</strong><small> 円</small></p>
         </div>
 
+        <p id="current-menu-label" class="current-menu-label">現在：通常メニュー表</p>
+        <button id="menu-switch-button" class="menu-switch-button" type="button" disabled>新商品メニュー表に移動</button>
         <button id="reset-button" class="reset-button" type="button">すべてリセット</button>
       </aside>
 
@@ -64,7 +66,7 @@
 
         <footer>
           <span>PRODUCT MASTER</span>
-          商品の追加・変更は <code>products.json</code> で行えます。
+          商品の追加・変更は <code id="product-master-file">products.json</code> で行えます。
         </footer>
       </section>
     </main>
