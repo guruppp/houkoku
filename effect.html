@@ -47,8 +47,10 @@ footer{text-align:center;color:#888;font-size:12px;padding:15px}
     <input id="search" type="search" placeholder="🔎 商品名・効果で検索…">
     <select id="category">
       <option value="all">すべて</option>
+      <option value="set">セット商品</option>
       <option value="ramen">ラーメン</option>
       <option value="drink">ドリンク</option>
+      <option value="titi">裏メニュー</option>
     </select>
     <select id="sort">
       <option value="default">おすすめ順</option>
@@ -56,6 +58,10 @@ footer{text-align:center;color:#888;font-size:12px;padding:15px}
       <option value="priceDesc">価格が高い順</option>
     </select>
   </div>
+  <section>
+    <div class="section-title"><h2>👜 セット商品</h2><span class="count" id="setCount"></span></div>
+    <div class="grid" id="setGrid"></div>
+  </section>
 
   <section>
     <div class="section-title"><h2>🍜 ラーメン</h2><span class="count" id="ramenCount"></span></div>
@@ -66,6 +72,10 @@ footer{text-align:center;color:#888;font-size:12px;padding:15px}
     <div class="section-title"><h2>🥤 ドリンク</h2><span class="count" id="drinkCount"></span></div>
     <div class="grid" id="drinkGrid"></div>
   </section>
+  <section>
+    <div class="section-title"><h2>🥛 裏メニュー</h2><span class="count" id="titiCount"></span></div>
+    <div class="grid" id="titiGrid"></div>
+  </section>
 
   <div class="empty" id="empty">該当する商品がありません。</div>
 </main>
@@ -73,23 +83,37 @@ footer{text-align:center;color:#888;font-size:12px;padding:15px}
 
 <script>
 const items=[
+ {cat:"set",name:"yo shi 　おすすめ4点セット",price:2040000,priceText:"204万円",condition:"チーフ以上販売可能",effect:"—",contents:"がんばれラーメン×1 / 麻婆ラーメン×1 / テンペスト×1 / ピエロ×6"},
+ {cat:"set",name:"愛辺リル　おすすめ3点セット",price:210000,priceText:"21万円",condition:"—",contents:"うさちゃんらーめん×1 / ぺスカ×1 / pipibull×1"},
+ {cat:"set",name:"茄子なすとん　おすすめ3点セット",price:70000,priceText:"7万円",condition:"—",contents:"未定"},
  {cat:"ramen",name:"豪快 麻婆ラーメン",price:700000,priceText:"70万円",condition:"チーフ以上販売可能",effect:"アーマーリジェネ回復（大） / アーマー（中）"},
  {cat:"ramen",name:"がんばれラーメン",price:550000,priceText:"55万円",condition:"チーフ以上販売可能",effect:"HPリジェネ回復（大） / HP（中）"},
- {cat:"ramen",name:"スペシャルラーメン",price:250000,priceText:"25万円",condition:"—",effect:"アーマー（中） / HP（中） / 止血"},
+ {cat:"ramen",name:"スペシャルラーメン",price:230000,priceText:"23万円",condition:"—",effect:"アーマー（中） / HP（中） / 止血"},
  {cat:"ramen",name:"ゆず塩香る",price:30000,priceText:"3万円",condition:"—",effect:"空腹・水分（中）"},
- {cat:"ramen",name:"ラーメン頑張れ屋 即席麺",price:60000,priceText:"6万円",condition:"—",effect:"空腹・水分・ストレス（中）"},
+ {cat:"ramen",name:"ラーメン頑張れ屋 即席麺",price:55000,priceText:"5.5万円",condition:"—",effect:"空腹・水分・ストレス（中）"},
  {cat:"ramen",name:"うさちゃんらーめん",price:15000,priceText:"1.5万円",condition:"—",effect:"ストレス（中）"},
+ {cat:"ramen",name:"麻薬たまご",price:25000,priceText:"2.5万円",condition:"—",effect:"空腹・水分（中） / 酩酊"},
  {cat:"drink",name:"特製pipiBull",price:45000,priceText:"4.5万円",condition:"—",effect:"足早（大）"},
  {cat:"drink",name:"テンペスト",price:800000,priceText:"80万円",condition:"ラーメンマスター以上販売可能",effect:"スタミナ（最強）"},
- {cat:"drink",name:"レザン",price:350000,priceText:"35万円",condition:"—",effect:"アーマー（大）"},
+ {cat:"drink",name:"レザン",price:330000,priceText:"33万円",condition:"—",effect:"アーマー（大）"},
  {cat:"drink",name:"ペスカ",price:160000,priceText:"16万円",condition:"—",effect:"スタミナ（大）"},
  {cat:"drink",name:"マーレ",price:60000,priceText:"6万円",condition:"—",effect:"泳ぎ早（特大）"},
- {cat:"drink",name:"ピエロ",price:3500,priceText:"3,500円",condition:"—",effect:"止血"}
+ {cat:"drink",name:"ピエロ",price:3500,priceText:"3,500円",condition:"—",effect:"止血"},
+ {cat:"titi",name:"ちち搾り　お手軽三点セット",price:300000,priceText:"30万円",condition:"—",contents:"バニラ×1 / ストロベリー×1 / チョコレート×1"},
+ {cat:"titi",name:"ちち搾り　バニラ味",price:100000,priceText:"10万円",condition:"—",effect:"HP（特大）"},
+ {cat:"titi",name:"ちち搾り　ストロベリー味",price:100000,priceText:"10万円",condition:"—",effect:"空腹・水分（中） / ストレス・HP（小） / 止血"},
+ {cat:"titi",name:"ちち搾り　チョコレート味",price:100000,priceText:"10万円",condition:"—",effect:"HP（小） / アーマー（中）"},
+ {cat:"titi",name:"ちち搾り　プリン味",price:950000,priceText:"95万円",condition:"チーフ以上販売可能",effect:"アーマーリジェネ回復（特大） / アーマー（中） / HP（大） "}
 ];
 
 const yen=n=>n.toLocaleString("ja-JP")+"円";
 const search=document.getElementById("search"), category=document.getElementById("category"), sort=document.getElementById("sort");
-const ramenGrid=document.getElementById("ramenGrid"), drinkGrid=document.getElementById("drinkGrid"), empty=document.getElementById("empty");
+const titiGrid=document.getElementById("titiGrid"), setGrid=document.getElementById("setGrid"),ramenGrid=document.getElementById("ramenGrid"), drinkGrid=document.getElementById("drinkGrid"), empty=document.getElementById("empty");
+
+function hasDisplayValue(value){
+ const text=String(value??"").trim();
+ return text!==""&&text.toLowerCase()!=="undefined";
+}
 
 function card(x){
  return `<article class="card">
@@ -99,23 +123,31 @@ function card(x){
      <span class="badge">${x.cat==="ramen"?"ラーメン":"ドリンク"}</span>
    </div>
    <div class="row"><span class="label">価格</span><span class="value price">${x.priceText}</span></div>
-   <div class="row"><span class="label">効果</span><span class="value effect">${x.effect}</span></div>
+   ${hasDisplayValue(x.effect)?`<div class="row"><span class="label">効果</span><span class="value effect">${x.effect}</span></div>`:""}
+   ${hasDisplayValue(x.contents)?`<div class="row"><span class="label">内容物</span><span class="value contents">${x.contents}</span></div>`:""}
  </article>`;
 }
 function render(){
  const q=search.value.trim().toLowerCase();
  let arr=items.filter(x=>{
    const okCat=category.value==="all"||x.cat===category.value;
-   const text=(x.name+" "+x.effect+" "+x.condition).toLowerCase();
+   const text=[x.name,x.effect,x.contents,x.condition]
+     .filter(hasDisplayValue)
+     .join(" ")
+     .toLowerCase();
    return okCat && text.includes(q);
  });
  if(sort.value==="priceAsc") arr.sort((a,b)=>a.price-b.price);
  if(sort.value==="priceDesc") arr.sort((a,b)=>b.price-a.price);
- const ramen=arr.filter(x=>x.cat==="ramen"), drink=arr.filter(x=>x.cat==="drink");
+ const set=arr.filter(x=>x.cat==="set"),ramen=arr.filter(x=>x.cat==="ramen"), drink=arr.filter(x=>x.cat==="drink"), titi=arr.filter(x=>x.cat==="titi");
+ setGrid.innerHTML=set.map(card).join("");
  ramenGrid.innerHTML=ramen.map(card).join("");
  drinkGrid.innerHTML=drink.map(card).join("");
+ titiGrid.innerHTML=titi.map(card).join("");
+ document.getElementById("setCount").textContent=`${set.length}件`;
  document.getElementById("ramenCount").textContent=`${ramen.length}件`;
  document.getElementById("drinkCount").textContent=`${drink.length}件`;
+ document.getElementById("titiCount").textContent=`${titi.length}件`;
  empty.style.display=arr.length?"none":"block";
 }
 [search,category,sort].forEach(el=>el.addEventListener("input",render));
