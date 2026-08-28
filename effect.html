@@ -6,7 +6,10 @@
 <title>商品早見表</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,"Noto Sans JP",sans-serif;background:#f5f3ef;color:#222}
-header{background:linear-gradient(135deg,#1d1d1d,#493c30);color:#fff;text-align:center;padding:28px 15px}
+header{background:linear-gradient(135deg,#1d1d1d,#493c30);color:#fff;text-align:center;padding:74px 15px 28px}
+.back-link{position:fixed;top:14px;left:50%;z-index:1000;width:min(310px,calc(100% - 28px));min-height:48px;padding:0 20px;display:flex;align-items:center;justify-content:center;transform:translateX(-50%);border:2px solid #fff4c9;border-radius:12px;background:#f4cf83;color:#17251f;text-decoration:none;font-size:16px;font-weight:900;box-shadow:0 6px 18px #0007;transition:transform .15s,background .15s}
+.back-link:hover{background:#ffe4a8;transform:translateX(-50%) translateY(-1px)}
+.back-link:focus-visible{outline:3px solid #fff;outline-offset:3px}
 h1{margin:0;font-size:clamp(26px,5vw,42px)}header p{margin:8px 0 0;color:#ddd}
 main{max-width:1150px;margin:auto;padding:20px 14px 45px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 input,select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:#fff;font-size:15px}input{flex:1;min-width:230px}
@@ -19,7 +22,7 @@ input,select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;backg
 .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}.label{color:#777;font-size:13px}.value{text-align:right;font-weight:700}.price{font-size:19px}.effect{line-height:1.6}
 .keyword{background:#30243b;color:#fff;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:inline-block;font-weight:700}
 .empty{text-align:center;color:#777;padding:30px;display:none}footer{text-align:center;color:#888;font-size:12px;padding:15px}
-@media(max-width:520px){main{padding:15px 10px}.grid{grid-template-columns:1fr}}
+@media(max-width:520px){header{padding-top:82px}.back-link{top:10px;width:calc(100% - 20px)}.grid{grid-template-columns:1fr}main{padding:15px 10px}}
 </style>
 </head>
 <body>
