@@ -127,6 +127,7 @@ function card(x){
    ${hasDisplayValue(x.contents)?`<div class="row"><span class="label">内容物</span><span class="value contents">${x.contents}</span></div>`:""}
  </article>`;
 }
+
 function render(){
  const q=search.value.trim().toLowerCase();
  let arr=items.filter(x=>{
