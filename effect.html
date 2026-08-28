@@ -1,158 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ラーメン・ドリンク早見表</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>商品早見表</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;background:#f5f3ef;color:#252525}
-header{background:linear-gradient(135deg,#1d1d1d,#3d342c);color:white;padding:28px 18px;text-align:center}
-header h1{margin:0;font-size:clamp(25px,5vw,42px)}
-header p{margin:8px 0 0;color:#ddd}
-.back-link{width:fit-content;margin:0 auto 18px;padding:10px 16px;display:block;border:1px solid #ffffff88;border-radius:10px;color:#fff;text-decoration:none;font-size:14px;font-weight:700}
-.back-link:hover{border-color:#ffe7a8;background:#ffffff12;color:#ffe7a8}
-main{max-width:1100px;margin:0 auto;padding:22px 14px 45px}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-input,select{border:1px solid #d5d0c8;background:white;border-radius:12px;padding:12px 14px;font-size:15px}
-input{flex:1;min-width:220px}
-.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px}
-.section-title h2{margin:0;font-size:24px}
-.count{font-size:13px;color:#777}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px}
-.card{background:white;border:1px solid #e5e0d8;border-radius:16px;padding:17px;box-shadow:0 3px 12px #0000000d;transition:.15s}
-.card:hover{transform:translateY(-2px);box-shadow:0 7px 20px #00000012}
-.name{font-size:20px;font-weight:800;margin-bottom:10px}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;background:#eee8df;color:#594d41}
-.badge.special{background:#ffe7a8;color:#765400}
-.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}
-.label{color:#777;font-size:13px}
-.value{font-weight:700;text-align:right}
-.effect{line-height:1.65}
-.price{font-size:19px}
-.empty{display:none;text-align:center;padding:35px;color:#777}
-footer{text-align:center;color:#888;font-size:12px;padding:15px}
-@media(max-width:520px){main{padding:15px 10px}.grid{grid-template-columns:1fr}.card{padding:15px}}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,"Noto Sans JP",sans-serif;background:#f5f3ef;color:#222}
+header{background:linear-gradient(135deg,#1d1d1d,#493c30);color:#fff;text-align:center;padding:28px 15px}
+h1{margin:0;font-size:clamp(26px,5vw,42px)}header p{margin:8px 0 0;color:#ddd}
+main{max-width:1150px;margin:auto;padding:20px 14px 45px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+input,select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:#fff;font-size:15px}input{flex:1;min-width:230px}
+.section{margin-top:28px}.section h2{margin:0 0 12px}.count{font-size:13px;color:#777}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:13px}
+.card{background:#fff;border:1px solid #e5e0d8;border-radius:16px;padding:17px;box-shadow:0 3px 12px #0001}
+.name{font-size:20px;font-weight:800;margin-bottom:10px}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.badge{padding:4px 9px;border-radius:999px;background:#eee8df;font-size:12px}.chief{background:#ffe7a8;color:#765400}.all{background:#e4f1e5;color:#356238}
+.secret{background:#eadcff;color:#5c318e}.staff{background:#faf8f5;border-radius:10px;padding:9px;margin:8px 0;font-size:13px}
+.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}.label{color:#777;font-size:13px}.value{text-align:right;font-weight:700}.price{font-size:19px}.effect{line-height:1.6}
+.keyword{background:#30243b;color:#fff;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:inline-block;font-weight:700}
+.empty{text-align:center;color:#777;padding:30px;display:none}footer{text-align:center;color:#888;font-size:12px;padding:15px}
+@media(max-width:520px){main{padding:15px 10px}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <a class="back-link" href="index.html">← 売上報告ツールに戻る</a>
-  <h1>🍜 ラーメン・ドリンク早見表</h1>
-  <p>価格・販売条件・効果をサッと確認</p>
-</header>
+<header><h1>🍜 商品早見表</h1><p>パック・食べ物・ドリンク・裏メニューをかんたん検索</p></header>
 <main>
-  <div class="toolbar">
-    <input id="search" type="search" placeholder="🔎 商品名・効果で検索…">
-    <select id="category">
-      <option value="all">すべて</option>
-      <option value="set">セット商品</option>
-      <option value="ramen">ラーメン</option>
-      <option value="drink">ドリンク</option>
-      <option value="titi">裏メニュー</option>
-    </select>
-    <select id="sort">
-      <option value="default">おすすめ順</option>
-      <option value="priceAsc">価格が安い順</option>
-      <option value="priceDesc">価格が高い順</option>
-    </select>
-  </div>
-  <section>
-    <div class="section-title"><h2>👜 セット商品</h2><span class="count" id="setCount"></span></div>
-    <div class="grid" id="setGrid"></div>
-  </section>
+<div class="tools">
+<input id="q" placeholder="🔎 商品名・効果・販売条件で検索…">
+<select id="cat"><option value="all">すべて</option><option value="pack">パック商品</option><option value="food">食べ物</option><option value="drink">ドリンク商品</option><option value="secret">裏メニュー</option></select>
+<select id="sort"><option value="default">おすすめ順</option><option value="asc">価格が安い順</option><option value="desc">価格が高い順</option></select>
+</div>
 
-  <section>
-    <div class="section-title"><h2>🍜 ラーメン</h2><span class="count" id="ramenCount"></span></div>
-    <div class="grid" id="ramenGrid"></div>
-  </section>
-
-  <section>
-    <div class="section-title"><h2>🥤 ドリンク</h2><span class="count" id="drinkCount"></span></div>
-    <div class="grid" id="drinkGrid"></div>
-  </section>
-  <section>
-    <div class="section-title"><h2>🥛 裏メニュー</h2><span class="count" id="titiCount"></span></div>
-    <div class="grid" id="titiGrid"></div>
-  </section>
-
-  <div class="empty" id="empty">該当する商品がありません。</div>
+<section class="section"><h2>📦 パック商品 <span class="count" id="pc"></span></h2><div class="grid" id="pack"></div></section>
+<section class="section"><h2>🍜 食べ物 <span class="count" id="fc"></span></h2><div class="grid" id="food"></div></section>
+<section class="section"><h2>🥤 ドリンク商品 <span class="count" id="dc"></span></h2><div class="grid" id="drink"></div></section>
+<section class="section"><h2>🔐 裏メニュー <span class="count" id="sc"></span></h2>
+<div class="keyword">🔑 合言葉：「デザートください」</div>
+<div class="grid" id="secret"></div></section>
+<div class="empty" id="empty">該当する商品がありません。</div>
 </main>
-<footer>※価格・効果・販売条件は入力された情報をそのまま整理しています。 created by 愛辺リル</footer>
+<footer>※入力された商品情報を整理して表示しています。</footer>
 
 <script>
 const items=[
- {cat:"set",name:"yo shi 　おすすめ4点セット",price:2040000,priceText:"204万円",condition:"チーフ以上販売可能",contents:"がんばれラーメン×1 / 麻婆ラーメン×1 / テンペスト×1 / ピエロ×6"},
- {cat:"set",name:"愛辺リル　おすすめ3点セット",price:210000,priceText:"21万円",condition:"—",contents:"うさちゃんらーめん×1 / ぺスカ×1 / pipibull×1"},
- {cat:"set",name:"茄子なすとん　おすすめ3点セット",price:70000,priceText:"7万円",condition:"—",contents:"未定"},
- {cat:"ramen",name:"豪快 麻婆ラーメン",price:700000,priceText:"70万円",condition:"チーフ以上販売可能",effect:"アーマーリジェネ回復（大） / アーマー（中）"},
- {cat:"ramen",name:"がんばれラーメン",price:550000,priceText:"55万円",condition:"チーフ以上販売可能",effect:"HPリジェネ回復（大） / HP（中）"},
- {cat:"ramen",name:"スペシャルラーメン",price:230000,priceText:"23万円",condition:"—",effect:"アーマー（中） / HP（中） / 止血"},
- {cat:"ramen",name:"ゆず塩香る",price:30000,priceText:"3万円",condition:"—",effect:"空腹・水分（中）"},
- {cat:"ramen",name:"ラーメン頑張れ屋 即席麺",price:55000,priceText:"5.5万円",condition:"—",effect:"空腹・水分・ストレス（中）"},
- {cat:"ramen",name:"うさちゃんらーめん",price:15000,priceText:"1.5万円",condition:"—",effect:"ストレス（中）"},
- {cat:"ramen",name:"麻薬たまご",price:25000,priceText:"2.5万円",condition:"—",effect:"空腹・水分（中） / 酩酊"},
- {cat:"drink",name:"特製pipiBull",price:45000,priceText:"4.5万円",condition:"—",effect:"足早（大）"},
- {cat:"drink",name:"テンペスト",price:800000,priceText:"80万円",condition:"ラーメンマスター以上販売可能",effect:"スタミナ（最強）"},
- {cat:"drink",name:"レザン",price:330000,priceText:"33万円",condition:"—",effect:"アーマー（大）"},
- {cat:"drink",name:"ペスカ",price:160000,priceText:"16万円",condition:"—",effect:"スタミナ（大）"},
- {cat:"drink",name:"マーレ",price:60000,priceText:"6万円",condition:"—",effect:"泳ぎ早（特大）"},
- {cat:"drink",name:"ピエロ",price:3500,priceText:"3,500円",condition:"—",effect:"止血"},
- {cat:"titi",name:"ちち搾り　お手軽三点セット",price:300000,priceText:"30万円",condition:"—",contents:"バニラ×1 / ストロベリー×1 / チョコレート×1"},
- {cat:"titi",name:"ちち搾り　バニラ味",price:100000,priceText:"10万円",condition:"—",effect:"HP（特大）"},
- {cat:"titi",name:"ちち搾り　ストロベリー味",price:100000,priceText:"10万円",condition:"—",effect:"空腹・水分（中） / ストレス・HP（小） / 止血"},
- {cat:"titi",name:"ちち搾り　チョコレート味",price:100000,priceText:"10万円",condition:"—",effect:"HP（小） / アーマー（中）"},
- {cat:"titi",name:"ちち搾り　プリン味",price:950000,priceText:"95万円",condition:"チーフ以上販売可能",effect:"アーマーリジェネ回復（特大） / アーマー（中） / HP（大） "}
+{c:"pack",n:"おすすめ4点セット",p:2040000,pt:"204万円",q:"瞑想毎10個",co:"チーフ以上販売",st:"yo shi / 愛辺リル",e:""},
+{c:"pack",n:"おすすめ3点セット",p:210000,pt:"21万円",q:"瞑想毎10個",co:"誰でも",st:"愛辺リル",e:""},
+{c:"pack",n:"おすすめ3点セット",p:70000,pt:"7万円",q:"瞑想毎10個",co:"誰でも",st:"茄子なすとん",e:""},
+{c:"food",n:"豪快 麻婆ラーメン",p:700000,pt:"70万円",q:"従業員毎30個",co:"チーフ以上販売",e:"アーマーリジェネ回復（大） / アーマー（中）"},
+{c:"food",n:"がんばれラーメン",p:550000,pt:"55万円",q:"従業員毎30個",co:"チーフ以上販売",e:"HPリジェネ回復（大） / HP（中）"},
+{c:"food",n:"スペシャルラーメン",p:230000,pt:"23万円",q:"従業員毎30個",co:"誰でも",e:"アーマー（中） / HP（中） / 止血"},
+{c:"food",n:"ゆず香る塩ラーメン",p:30000,pt:"3万円",q:"従業員毎50個",co:"誰でも",e:"空腹・水分（中）"},
+{c:"food",n:"ラーメン頑張れ屋即席麺",p:55000,pt:"5.5万円",q:"従業員毎50個",co:"誰でも",e:"空腹・水分・ストレス（中）"},
+{c:"food",n:"うさちゃんらーめん",p:15000,pt:"1.5万円",q:"従業員毎100個",co:"誰でも",e:"ストレス（中）"},
+{c:"food",n:"麻薬たまご",p:25000,pt:"2.5万円",q:"従業員毎50個",co:"誰でも",e:"空腹・水分（中） / 酩酊"},
+{c:"drink",n:"特製pipiBull",p:45000,pt:"4.5万円",q:"従業員毎30個",co:"誰でも",e:"足早（大）"},
+{c:"drink",n:"テンペスト",p:800000,pt:"80万円",q:"従業員毎30個",co:"チーフ以上販売",tag:"RGドリンクシリーズ",e:"スタミナ（最強）"},
+{c:"drink",n:"レザン",p:330000,pt:"33万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"アーマー（特大）"},
+{c:"drink",n:"ペスカ",p:160000,pt:"16万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"スタミナ（大）"},
+{c:"drink",n:"マーレ",p:60000,pt:"6万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"泳ぎ早（特大）"},
+{c:"drink",n:"ピエロ",p:3500,pt:"3,500円",q:"従業員毎50個",co:"誰でも",tag:"RGドリンクシリーズ",e:"止血"},
+{c:"secret",n:"ちち搾り お手軽三点セット",p:300000,pt:"30万円",q:"瞑想毎上限20個",co:"誰でも",e:"中身：バニラ・ストロベリー・チョコレート"},
+{c:"secret",n:"ちち搾り バニラ味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（特大）"},
+{c:"secret",n:"ちち搾り ストロベリー味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"空腹・水分（中） / ストレス / HP（小） / 止血"},
+{c:"secret",n:"ちち搾り チョコレート味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（小） / アーマー（中）"},
+{c:"secret",n:"ちち搾り プリン味",p:950000,pt:"95万円",q:"瞑想毎上限20個",co:"チーフ以上販売可能",e:"アーマーリジェネ回復（特大） / アーマー（中） / HP（大）"}
 ];
-
-const yen=n=>n.toLocaleString("ja-JP")+"円";
-const search=document.getElementById("search"), category=document.getElementById("category"), sort=document.getElementById("sort");
-const titiGrid=document.getElementById("titiGrid"), setGrid=document.getElementById("setGrid"),ramenGrid=document.getElementById("ramenGrid"), drinkGrid=document.getElementById("drinkGrid"), empty=document.getElementById("empty");
-
-function hasDisplayValue(value){
- const text=String(value??"").trim();
- return text!==""&&text.toLowerCase()!=="undefined";
-}
-
+const labels={pack:"パック商品",food:"食べ物",drink:"ドリンク商品",secret:"裏メニュー"};
 function card(x){
- return `<article class="card">
-   <div class="name">${x.name}</div>
-   <div class="badges">
-     ${x.condition!=="—"?`<span class="badge special">🔓 ${x.condition}</span>`:""}
-     <span class="badge">${x.cat==="ramen"?"ラーメン":"ドリンク"}</span>
-   </div>
-   <div class="row"><span class="label">価格</span><span class="value price">${x.priceText}</span></div>
-   ${hasDisplayValue(x.effect)?`<div class="row"><span class="label">効果</span><span class="value effect">${x.effect}</span></div>`:""}
-   ${hasDisplayValue(x.contents)?`<div class="row"><span class="label">内容物</span><span class="value contents">${x.contents}</span></div>`:""}
- </article>`;
+return `<article class="card"><div class="name">${x.n}</div><div class="badges"><span class="badge">${labels[x.c]}</span>${x.tag?`<span class="badge">${x.tag}</span>`:""}<span class="badge ${x.co.startsWith("チーフ")?"chief":x.c==="secret"?"secret":"all"}">${x.co}</span></div>${x.st?`<div class="staff">👤 販売従業員：${x.st}</div>`:""}<div class="row"><span class="label">販売数</span><span class="value">${x.q}</span></div><div class="row"><span class="label">価格</span><span class="value price">${x.pt}</span></div>${x.e?`<div class="row"><span class="label">効果・内容</span><span class="value effect">${x.e}</span></div>`:""}</article>`
 }
-
 function render(){
- const q=search.value.trim().toLowerCase();
- let arr=items.filter(x=>{
-   const okCat=category.value==="all"||x.cat===category.value;
-   const text=[x.name,x.effect,x.contents,x.condition]
-     .filter(hasDisplayValue)
-     .join(" ")
-     .toLowerCase();
-   return okCat && text.includes(q);
- });
- if(sort.value==="priceAsc") arr.sort((a,b)=>a.price-b.price);
- if(sort.value==="priceDesc") arr.sort((a,b)=>b.price-a.price);
- const set=arr.filter(x=>x.cat==="set"),ramen=arr.filter(x=>x.cat==="ramen"), drink=arr.filter(x=>x.cat==="drink"), titi=arr.filter(x=>x.cat==="titi");
- setGrid.innerHTML=set.map(card).join("");
- ramenGrid.innerHTML=ramen.map(card).join("");
- drinkGrid.innerHTML=drink.map(card).join("");
- titiGrid.innerHTML=titi.map(card).join("");
- document.getElementById("setCount").textContent=`${set.length}件`;
- document.getElementById("ramenCount").textContent=`${ramen.length}件`;
- document.getElementById("drinkCount").textContent=`${drink.length}件`;
- document.getElementById("titiCount").textContent=`${titi.length}件`;
- empty.style.display=arr.length?"none":"block";
+let q=document.getElementById("q").value.toLowerCase(),c=document.getElementById("cat").value,s=document.getElementById("sort").value;
+let a=items.filter(x=>(c==="all"||x.c===c)&&(x.n+" "+x.e+" "+x.co+" "+x.q+" "+(x.st||"")+" "+(x.tag||"")).toLowerCase().includes(q));
+if(s==="asc")a.sort((x,y)=>x.p-y.p);if(s==="desc")a.sort((x,y)=>y.p-x.p);
+["pack","food","drink","secret"].forEach(k=>{let z=a.filter(x=>x.c===k);document.getElementById(k).innerHTML=z.map(card).join("");document.getElementById(k==="pack"?"pc":k==="food"?"fc":k==="drink"?"dc":"sc").textContent=z.length+"件"});
+document.getElementById("empty").style.display=a.length?"none":"block"
 }
-[search,category,sort].forEach(el=>el.addEventListener("input",render));
-render();
+["q","cat","sort"].forEach(id=>document.getElementById(id).addEventListener("input",render));render();
 </script>
-</body>
-</html>
+</body></html>
