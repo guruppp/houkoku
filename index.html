@@ -7,8 +7,8 @@
     <meta name="description" content="商品の販売数を入力して、報告文を作成できる売上報告ツールです。">
     <title>売上報告ツール</title>
     <link rel="icon" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=20260827">
-    <script src="app.js?v=20260827" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260830-5">
+    <script src="app.js?v=20260830-5" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -39,6 +39,7 @@
         <p id="current-menu-label" class="current-menu-label">現在：通常メニュー表</p>
         <button id="menu-switch-button" class="menu-switch-button" type="button" disabled>新商品メニュー表に移動</button>
         <a class="effect-page-link" href="effect.html">商品効果早見表に移動</a>
+        <button id="calculator-open-button" class="calculator-open-button" type="button" aria-haspopup="dialog" aria-controls="calculator-overlay" disabled>請求額を計算</button>
         <button id="reset-button" class="reset-button" type="button">すべてリセット</button>
       </aside>
 
@@ -71,5 +72,32 @@
         </footer>
       </section>
     </main>
+
+    <div id="calculator-overlay" class="calculator-overlay" hidden>
+      <section class="calculator" role="dialog" aria-modal="true" aria-labelledby="calculator-title">
+        <header class="calculator-header">
+          <div>
+            <span>CHECKOUT</span>
+            <h2 id="calculator-title">お会計計算</h2>
+          </div>
+          <button id="calculator-close-button" class="calculator-close-button" type="button" aria-label="お会計計算を閉じる">×</button>
+        </header>
+        <p id="billing-menu-name" class="billing-menu-name"></p>
+        <div id="billing-list" class="billing-list"></div>
+        <div class="billing-summary" aria-live="polite">
+          <div class="billing-total-area">
+            <span>合計</span>
+            <button id="billing-total-copy-button" class="billing-total-copy-button" type="button" aria-label="合計金額をコピー">
+              <strong><span id="billing-total">0</span><small> 円</small></strong>
+            </button>
+            <small id="billing-copy-status" class="billing-copy-status" role="status">金額をクリックしてコピー</small>
+          </div>
+          <div class="billing-summary-actions">
+            <button id="billing-clear-button" type="button">数量をすべてクリア</button>
+            <button id="billing-apply-button" class="billing-apply-button" type="button" disabled>売り上げ報告に反映</button>
+          </div>
+        </div>
+      </section>
+    </div>
   </body>
 </html>

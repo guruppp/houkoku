@@ -119,6 +119,7 @@ button { cursor: pointer; }
 
 .menu-switch-button,
 .effect-page-link,
+.calculator-open-button,
 .reset-button {
   position: relative;
   z-index: 1;
@@ -141,6 +142,14 @@ button { cursor: pointer; }
   color: #eff5f1;
 }
 .effect-page-link:hover { border-color: #f4cf83; color: #f4cf83; }
+.calculator-open-button {
+  margin-top: 8px;
+  border-color: #86aeb8;
+  background: #244b55;
+  color: #fff;
+}
+.calculator-open-button:hover { border-color: #bce8f1; background: #2d5d68; }
+.calculator-open-button:disabled { cursor: not-allowed; opacity: .6; }
 .current-menu-label {
   position: relative;
   z-index: 1;
@@ -159,6 +168,92 @@ button { cursor: pointer; }
 .menu-switch-button:disabled { cursor: not-allowed; opacity: .6; }
 .reset-button { margin-top: 8px; }
 .reset-button:hover { border-color: #f4cf83; color: #f4cf83; }
+
+.calculator-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  background: #0b1712b8;
+  backdrop-filter: blur(4px);
+}
+.calculator-overlay[hidden] { display: none; }
+.calculator {
+  width: min(100%, 760px);
+  max-height: calc(100dvh - 40px);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ffffff33;
+  border-radius: 18px;
+  background: #17251f;
+  color: #fff;
+  box-shadow: 0 24px 70px #0008;
+}
+.calculator-header { margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+.calculator-header span { color: #8fa99c; font-size: 8px; font-weight: 800; letter-spacing: .2em; }
+.calculator-header h2 { margin: 0; color: #f4cf83; font: 600 24px Georgia, "Yu Mincho", serif; }
+.calculator-close-button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #789087;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+}
+.calculator-close-button:hover { border-color: #f4cf83; color: #f4cf83; }
+.billing-menu-name { margin: 0 0 10px; color: #dce8df; font-size: 12px; font-weight: 700; }
+.billing-list { min-height: 120px; overflow-y: auto; border: 1px solid #52645d; background: #f8f5ec; color: var(--ink); }
+.billing-group h3 { margin: 0; padding: 10px 14px; position: sticky; top: 0; z-index: 1; background: #dce8df; color: #173b33; font-size: 13px; }
+.billing-item {
+  min-height: 68px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px 120px;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid #ded8cc;
+  background: #fff;
+}
+.billing-group .billing-item:nth-child(odd) { background: #faf8f2; }
+.billing-product { min-width: 0; }
+.billing-product strong { display: block; overflow-wrap: anywhere; font-size: 13px; }
+.billing-product small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+.billing-quantity { display: grid; gap: 5px; }
+.billing-step-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.billing-quantity button,
+.billing-quantity input { width: 100%; height: 34px; border: 1px solid #aaa49a; border-radius: 6px; }
+.billing-quantity button { background: #e7e0d2; color: var(--ink); font-size: 11px; font-weight: 900; }
+.billing-step-row.decrease button { background: #eee8df; color: #70463a; }
+.billing-step-row.increase button { background: #dce8df; color: #24523e; }
+.billing-quantity button:hover { border-color: var(--orange); background: #fff0e6; }
+.billing-quantity input { padding: 2px; background: #fff; text-align: center; font-size: 14px; font-weight: 800; appearance: textfield; }
+.billing-quantity input::-webkit-inner-spin-button,
+.billing-quantity input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+.billing-line-total { color: var(--red); text-align: right; font-size: 14px; }
+.billing-summary { margin-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.billing-total-area > span { display: block; color: #b6c7be; font-size: 10px; font-weight: 700; }
+.billing-total-copy-button { margin-top: 3px; padding: 2px 8px 2px 0; border: 0; border-bottom: 1px dashed #f4cf83; background: transparent; text-align: left; }
+.billing-total-copy-button:hover { background: #ffffff0d; }
+.billing-total-copy-button strong { display: block; color: #f4cf83; font: 700 32px Georgia, serif; }
+.billing-summary small { font: 700 11px Arial, sans-serif; }
+.billing-copy-status { min-height: 15px; margin-top: 5px; display: block; color: #b6c7be; font-size: 9px !important; }
+.billing-summary button { min-height: 42px; padding: 0 15px; border: 1px solid #789087; background: transparent; color: #fff; font-size: 11px; font-weight: 800; }
+.billing-summary .billing-total-copy-button { min-height: 0; padding: 2px 8px 2px 0; border: 0; border-bottom: 1px dashed #f4cf83; color: #f4cf83; }
+.billing-summary button:hover { border-color: #f4cf83; color: #f4cf83; }
+.billing-summary-actions { display: flex; gap: 8px; }
+.billing-summary .billing-apply-button { border-color: #f4cf83; background: #f4cf83; color: #173b33; }
+.billing-summary .billing-apply-button:hover:not(:disabled) { background: #ffe0a0; color: #173b33; }
+.billing-summary button:disabled { cursor: not-allowed; opacity: .5; }
+.billing-quantity button:focus-visible,
+.billing-quantity input:focus-visible,
+.billing-summary button:focus-visible,
+.calculator-close-button:focus-visible { outline: 3px solid #f4cf83; outline-offset: 2px; }
+body.calculator-is-open { overflow: hidden; }
 
 .work-area { min-width: 0; padding: 18px 0 40px; }
 
@@ -337,6 +432,7 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .current-menu-label { margin-top: 18px; }
   .menu-switch-button,
   .effect-page-link,
+  .calculator-open-button,
   .reset-button { margin-top: 8px; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
@@ -391,6 +487,15 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .menu-panel h2 { font-size: 22px; }
   .report-section { padding: 20px 14px; }
   footer { flex-direction: column; gap: 4px; }
+  .calculator-overlay { padding: 10px; }
+  .calculator { max-height: calc(100dvh - 20px); padding: 14px; }
+  .billing-item { grid-template-columns: 1fr auto; gap: 9px 12px; }
+  .billing-product { grid-column: 1 / -1; }
+  .billing-quantity { width: 190px; }
+  .billing-line-total { min-width: 96px; }
+  .billing-summary { align-items: stretch; flex-direction: column; }
+  .billing-summary-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .billing-summary-actions button { width: 100%; padding: 0 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
