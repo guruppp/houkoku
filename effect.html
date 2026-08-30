@@ -6,9 +6,9 @@
 <title>商品早見表</title>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,"Noto Sans JP",sans-serif;background:#f5f3ef;color:#222}
-header{position:relative;background:linear-gradient(135deg,#1d1d1d,#493c30);color:#fff;text-align:center;padding:34px 220px}
+header{background:linear-gradient(135deg,#1d1d1d,#493c30);color:#fff;text-align:center;padding:28px 15px}
 .back-link{position:fixed;z-index:1000;right:24px;bottom:24px;display:flex;align-items:center;gap:10px;min-height:58px;padding:9px 18px 9px 11px;border:2px solid #f0c66c;border-radius:16px;background:#fff;color:#302b27;text-align:left;text-decoration:none;box-shadow:0 9px 26px #0006;transition:transform .18s ease,background .18s ease}
-.back-link:hover{background:#fff4d8;transform:translateY(-2px)}.back-link:focus-visible{outline:3px solid #fff;outline-offset:4px}.back-link-arrow{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#302b27;color:#f0c66c;font-size:21px;font-weight:900}.back-link-text{display:grid;gap:1px}.back-link small{color:#806f5c;font-size:10px;font-weight:800;letter-spacing:.08em}.back-link strong{font-size:14px;white-space:nowrap}
+.back-link:hover{background:#fff4d8;transform:translateY(-2px)}.back-link:focus-visible{outline:3px solid #302b27;outline-offset:4px}.back-link-arrow{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#302b27;color:#f0c66c;font-size:21px;font-weight:900}.back-link-text{display:grid;gap:1px}.back-link small{color:#806f5c;font-size:10px;font-weight:800;letter-spacing:.08em}.back-link strong{font-size:14px;white-space:nowrap}
 h1{margin:0;font-size:clamp(26px,5vw,42px)}header p{margin:8px 0 0;color:#ddd}
 main{max-width:1150px;margin:auto;padding:20px 14px 45px}.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
 select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:#fff;font-size:15px}.categories{display:flex;gap:8px;flex-wrap:wrap;flex:1}.catbtn{border:1px solid #d8d2ca;background:#fff;border-radius:12px;padding:11px 14px;font-size:14px;font-weight:700;cursor:pointer}.catbtn:hover{background:#f0ece6}.catbtn.active{background:#302b27;color:#fff;border-color:#302b27}.filter-title{font-size:14px;font-weight:800;margin:14px 0 7px}.effectcats{margin-top:0}.effectcats .catbtn.active{background:#6b4f2f;border-color:#6b4f2f}
@@ -18,22 +18,19 @@ select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:
 .name{font-size:20px;font-weight:800;margin-bottom:10px}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .badge{padding:4px 9px;border-radius:999px;background:#eee8df;font-size:12px}.chief{background:#ffe7a8;color:#765400}.all{background:#e4f1e5;color:#356238}
 .secret{background:#eadcff;color:#5c318e}.staff{background:#faf8f5;border-radius:10px;padding:9px;margin:8px 0;font-size:13px}
-.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}.label{color:#777;font-size:13px}.value{text-align:right;font-weight:700}.price{font-size:19px}.effect{line-height:1.6}
+.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}.label{color:#777;font-size:13px}.value{text-align:right;font-weight:700}.effect{line-height:1.7}.price{font-size:19px}.effect{line-height:1.6}
 .keyword{background:#30243b;color:#fff;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:inline-block;font-weight:700}
 .empty{text-align:center;color:#777;padding:30px;display:none}footer{text-align:center;color:#888;font-size:12px;padding:15px}
-@media(max-width:760px){header{padding:26px 14px}.back-link{right:10px;bottom:10px;left:10px;width:auto;justify-content:center}.back-link:hover{transform:translateY(-2px)}}
+@media(max-width:760px){.back-link{right:10px;bottom:10px;left:10px;width:auto;justify-content:center}}
 @media(max-width:520px){main{padding:15px 10px 105px}.grid{grid-template-columns:1fr}}
 .sortline{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.sortline button{padding:11px 14px;border:1px solid #d8d2ca;border-radius:12px;background:#fff;font-weight:700;cursor:pointer}.sortline button:hover{background:#f0ece6}.packcard{cursor:pointer}.tap{float:right;font-size:11px;font-weight:600;color:#888;margin-top:5px}.packcontents{margin-top:10px;padding:12px;border-radius:10px;background:#f7f3ed;line-height:1.8}.packbody{display:none}.packcard.open .packbody{display:block}.packcard.open .tap{color:#765400}.packcard.open{border-color:#c8a66a}</style>
 </head>
 <body>
-<header>
-  <a class="back-link" href="index.html">
-    <span class="back-link-arrow" aria-hidden="true">←</span>
-    <span class="back-link-text"><small>売上入力画面へ</small><strong>売上報告ツールに戻る</strong></span>
-  </a>
-  <h1>🍜 商品早見表</h1>
-  <p>パック・食べ物・ドリンク・裏メニューをかんたん検索</p>
-</header>
+<header><h1>🍜 商品早見表</h1><p>パック・食べ物・ドリンク・裏メニューをかんたん検索</p></header>
+<a class="back-link" href="index.html">
+  <span class="back-link-arrow" aria-hidden="true">←</span>
+  <span class="back-link-text"><small>売上入力画面へ</small><strong>売上報告ツールに戻る</strong></span>
+</a>
 <main>
 <div class="tools">
 <div class="filter-title">商品カテゴリ</div>
@@ -67,13 +64,13 @@ select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:
 <div class="grid" id="secret"></div></section>
 <div class="empty" id="empty">該当する商品がありません。</div>
 </main>
-<footer>※入力された商品情報を整理して表示しています。 created by 愛辺リル</footer>
+<footer>※入力された商品情報を整理して表示しています。</footer>
 
 <script>
 const items=[
-{c:"pack",n:"yo shi　おすすめ4点セット",p:2040000,pt:"204万円",q:"瞑想毎10個",co:"チーフ以上販売",st:"yo shi",e:"",contents:"豪快 麻婆ラーメン ×1 / がんばれラーメン ×1 / テンペスト ×1 / ピエロ ×6"},
-{c:"pack",n:"愛辺 リル　おすすめ3点セット",p:210000,pt:"21万円",q:"瞑想毎10個",co:"誰でも",st:"愛辺リル",e:"",contents:"うさちゃんらーめん ×1 / 特製pipiBull ×1 / ペスカ ×1"},
-{c:"pack",n:"茄子 なすとん　おすすめ3点セット",p:70000,pt:"7万円",q:"瞑想毎10個",co:"誰でも",st:"茄子なすとん",e:"",contents:"ゆず香る塩ラーメン ×1 / うさちゃんらーめん ×1 / 麻薬たまご ×1"},
+{c:"pack",n:"おすすめ4点セット",p:2040000,pt:"204万円",q:"瞑想毎10個",co:"チーフ以上販売",st:"yo shi",e:"",contents:"豪快 麻婆ラーメン ×1 / がんばれラーメン ×1 / テンペスト ×1 / ピエロ ×6"},
+{c:"pack",n:"おすすめ3点セット",p:70000,pt:"7万円",q:"瞑想毎10個",co:"誰でも",st:"茄子なすとん",e:"",contents:"ゆず香る塩ラーメン ×1 / うさちゃんらーめん ×1 / 麻薬たまご ×1"},
+{c:"pack",n:"おすすめ3点セット",p:70000,pt:"7万円",q:"瞑想毎10個",co:"誰でも",st:"茄子なすとん",e:"",contents:"ゆず香る塩ラーメン ×1 / うさちゃんらーめん ×1 / 麻薬たまご ×1"},
 {c:"food",n:"豪快 麻婆ラーメン",p:700000,pt:"70万円",q:"従業員毎30個",co:"チーフ以上販売",e:"アーマーリジェネ回復（大） / アーマー（中）"},
 {c:"food",n:"がんばれラーメン",p:550000,pt:"55万円",q:"従業員毎30個",co:"チーフ以上販売",e:"HPリジェネ回復（大） / HP（中）"},
 {c:"food",n:"スペシャルラーメン",p:230000,pt:"23万円",q:"従業員毎30個",co:"誰でも",e:"アーマー（中） / HP（中） / 止血"},
@@ -87,23 +84,28 @@ const items=[
 {c:"drink",n:"ペスカ",p:160000,pt:"16万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"スタミナ（大）"},
 {c:"drink",n:"マーレ",p:60000,pt:"6万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"泳ぎ早（特大）"},
 {c:"drink",n:"ピエロ",p:3500,pt:"3,500円",q:"従業員毎50個",co:"誰でも",tag:"RGドリンクシリーズ",e:"止血"},
-{c:"secret",n:"ちち搾り お手軽三点セット",p:300000,pt:"30万円",q:"瞑想毎上限20個",co:"誰でも",e:"中身：バニラ・ストロベリー・チョコレート"},
+{c:"secret",n:"ちち搾り お手軽三点セット",p:300000,pt:"30万円",q:"瞑想毎上限20個",co:"誰でも",e:"",contents:"中身：バニラ・ストロベリー・チョコレート"},
 {c:"secret",n:"ちち搾り バニラ味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（特大）"},
 {c:"secret",n:"ちち搾り ストロベリー味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"空腹・水分（中） / ストレス / HP（小） / 止血"},
 {c:"secret",n:"ちち搾り チョコレート味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（小） / アーマー（中）"},
 {c:"secret",n:"ちち搾り プリン味",p:950000,pt:"95万円",q:"瞑想毎上限20個",co:"チーフ以上販売可能",e:"アーマーリジェネ回復（特大） / アーマー（中） / HP（大）"}
 ];
 const labels={pack:"パック商品",food:"食べ物",drink:"ドリンク商品",secret:"裏メニュー"};
-function effectTags(e){
+function effectDetails(e){
 const tags=[
 ["HP","❤️ HP"],["アーマー","🛡️ アーマー"],["スタミナ","⚡ スタミナ"],
 ["足早","🏃 足早"],["泳ぎ早","🏊 泳ぎ早"],["止血","🩸 止血"],
 ["空腹","🍖 空腹"],["水分","💧 水分"],["ストレス","😌 ストレス"],["酩酊","😵 酩酊"]
 ];
-return tags.filter(t=>e.includes(t[0])).map(t=>`<span class="badge">${t[1]}</span>`).join("");
+return tags.filter(([key])=>e.includes(key)).map(([key,label])=>{
+ const pos=e.indexOf(key);
+ const tail=e.slice(pos+key.length);
+ const m=tail.match(/^（[^）]+）/);
+ return `<span class="badge">${label}${m?" "+m[0]:""}</span>`;
+}).join("");
 }
 function card(x){
-const body=`<div class="row"><span class="label">販売数</span><span class="value">${x.q}</span></div><div class="row"><span class="label">価格</span><span class="value price">${x.pt}</span></div>${x.e?`<div class="row"><span class="label">効果</span><span class="value"><div class="badges">${effectTags(x.e)}</div></span></div>`:""}${x.contents?`<div class="packcontents"><b>📋 中身</b><div>${x.contents.replaceAll(" / ","<br>")}</div></div>`:""}`;
+const body=`<div class="row"><span class="label">販売数</span><span class="value">${x.q}</span></div><div class="row"><span class="label">価格</span><span class="value price">${x.pt}</span></div>${x.e?`<div class="row"><span class="label">効果</span><span class="value effect">${x.e}</span></div>`:""}${x.contents?`<div class="packcontents"><b>📋 中身</b><div>${x.contents.replaceAll(" / ","<br>")}</div></div>`:""}`;
 return `<article class="card ${x.c==="pack"?"packcard":""}" ${x.c==="pack"?'onclick="this.classList.toggle(\'open\')"':""}><div class="name">${x.n}${x.c==="pack"?'<span class="tap">＋ クリックで中身</span>':""}</div><div class="badges"><span class="badge">${labels[x.c]}</span>${x.tag?`<span class="badge">${x.tag}</span>`:""}<span class="badge ${x.co.startsWith("チーフ")?"chief":x.c==="secret"?"secret":"all"}">${x.co}</span></div>${x.st?`<div class="staff">👤 販売従業員：${x.st}</div>`:""}${x.c==="pack"?`<div class="packbody">${body}</div>`:body}</article>`;
 }
 function render(){
