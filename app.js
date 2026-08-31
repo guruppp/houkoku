@@ -8,7 +8,7 @@ const CHANNELS = [
 const state = {
   groups: [],
   values: {},
-  currentMenu: "standard",
+  currentMenu: "newProducts",
   menus: {
     standard: null,
     newProducts: null
@@ -185,7 +185,7 @@ function renderBillingCalculator() {
   const isNewMenu = state.currentMenu === "newProducts";
   elements.billingMenuName.textContent = isNewMenu
     ? "新商品メニュー表の商品"
-    : "通常メニュー表の商品";
+    : "旧商品メニュー表の商品";
 
   elements.billingList.innerHTML = state.groups.map((group) => `
     <section class="billing-group">
@@ -421,7 +421,7 @@ function normalizeProductData(data) {
   return groups;
 }
 
-function applyProductData(data, menuId = "standard") {
+function applyProductData(data, menuId = "newProducts") {
   state.menus[menuId] = normalizeProductData(data);
   state.currentMenu = menuId;
   state.groups = state.menus[menuId];
@@ -442,14 +442,14 @@ function switchMenu() {
   const isNewMenu = nextMenu === "newProducts";
   elements.currentMenuLabel.textContent = isNewMenu
     ? "現在：新商品メニュー表"
-    : "現在：通常メニュー表";
+    : "現在：旧商品メニュー表";
   elements.menuSwitchButton.textContent = isNewMenu
-    ? "通常メニュー表に戻る"
-    : "新商品メニュー表に移動";
+    ? "旧商品メニュー表に移動"
+    : "新商品メニュー表に戻る";
   elements.menuSwitchButton.setAttribute("aria-pressed", String(isNewMenu));
   elements.productMasterFile.textContent = isNewMenu
-    ? "products-new.json"
-    : "products.json";
+    ? "products.json"
+    : "products-old.json";
 
   renderPanels();
   updateReport();
@@ -491,16 +491,16 @@ async function loadProducts() {
       return response.json();
     };
 
-    const standardData = await loadFile("products.json");
-    applyProductData(standardData, "standard");
+    const newProductsData = await loadFile("products.json");
+    applyProductData(newProductsData, "newProducts");
 
     try {
-      state.menus.newProducts = normalizeProductData(
-        await loadFile("products-new.json")
+      state.menus.standard = normalizeProductData(
+        await loadFile("products-old.json")
       );
       elements.menuSwitchButton.disabled = false;
     } catch {
-      elements.menuSwitchButton.textContent = "新商品メニュー表を読み込めません";
+      elements.menuSwitchButton.textContent = "旧商品メニュー表を読み込めません";
       elements.menuSwitchButton.disabled = true;
     }
   } catch {

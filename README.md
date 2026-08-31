@@ -4,12 +4,12 @@ HTML・CSS・JavaScriptだけで動く、GitHub Pages向けの静的Webアプリ
 
 ## 商品の変更
 
-`products.json` をテキストエディタで開き、通常メニュー・シーズンメニューの商品を追加・変更・削除します。
+`products.json` をテキストエディタで開き、現在使用する商品の追加・変更・削除を行います。
 
-- `products.json`: 通常メニュー表
-- `products-new.json`: 新商品メニュー表
+- `products.json`: 最初に表示される新商品メニュー表
+- `products-old.json`: 切り替えて確認できる旧商品メニュー表
 
-画面の「新商品メニュー表に移動」ボタンで2つのメニュー表を切り替えられます。メニューごとの入力内容は別々に保持されます。
+画面の「旧商品メニュー表に移動」ボタンで2つのメニュー表を切り替えられます。メニューごとの入力内容は別々に保持されます。
 
 「商品効果早見表に移動」ボタンを押すと、`effect.html`のラーメン・ドリンク早見表を別ページとして表示できます。
 
@@ -70,4 +70,4 @@ python -m http.server 8000
 3. 「Deploy from a branch」を選択します。
 4. 公開元を `main` ブランチの `/ (root)` に設定します。
 
-以後、`products.json`または`products-new.json`を更新してGitHubへ反映すると商品情報も更新されます。
+以後、`products.json`または`products-old.json`を更新してGitHubへ反映すると商品情報も更新されます。
