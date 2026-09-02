@@ -16,7 +16,7 @@ select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:13px}
 .card{background:#fff;border:1px solid #e5e0d8;border-radius:16px;padding:17px;box-shadow:0 3px 12px #0001}
 .name{font-size:20px;font-weight:800;margin-bottom:10px}.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.badge{padding:4px 9px;border-radius:999px;background:#eee8df;font-size:12px}.chief{background:#ffe7a8;color:#765400}.artisan{border:1px solid #984f4c;background:#b76561;color:#fff;font-weight:800;box-shadow:0 2px 6px #8a48402e}.all{background:#e4f1e5;color:#356238}
+.badge{padding:4px 9px;border-radius:999px;background:#eee8df;font-size:12px}.chief{border:1px solid #a83d3d;background:#c95353;color:#fff;font-weight:900;box-shadow:0 2px 6px #9c3b3b33}.ramen-master{background:#ffe7a8;color:#765400;font-weight:800}.artisan{border:1px solid #984f4c;background:#b76561;color:#fff;font-weight:800;box-shadow:0 2px 6px #8a48402e}.all{background:#e4f1e5;color:#356238}
 .secret{background:#eadcff;color:#5c318e}.mobile-only{border:1px solid #a8c2d2;background:#dce9f0;color:#31586e;font-weight:800}.staff{background:#faf8f5;border-radius:10px;padding:9px;margin:8px 0;font-size:13px}
 .row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #eee;padding:8px 0}.label{color:#777;font-size:13px}.value{text-align:right;font-weight:700}.effect{line-height:1.7}.price{font-size:19px}.effect{line-height:1.6}
 .keyword{background:#30243b;color:#fff;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:inline-block;font-weight:700}
@@ -68,7 +68,7 @@ select{padding:12px 14px;border:1px solid #d8d2ca;border-radius:12px;background:
 
 <script>
 const items=[
-{c:"pack",n:"yo shi　おすすめ4点セット",p:2040000,pt:"204万円",q:"瞑想毎10個",co:"チーフ以上販売可能",st:"yo shi",e:"",contents:"豪快 麻婆ラーメン ×1 / がんばれラーメン ×1 / テンペスト ×1 / ピエロ ×6"},
+{c:"pack",n:"yo shi　おすすめ4点セット",p:1400000,pt:"140万円",q:"瞑想毎10個",co:"チーフ以上販売可能",st:"yo shi",e:"",contents:"豪快 麻婆ラーメン ×1 / がんばれラーメン ×1 / ペスカ ×1 / ピエロ ×8"},
 {c:"pack",n:"愛辺リル　おすすめ3点セット",p:210000,pt:"21万円",q:"瞑想毎10個",co:"誰でも",st:"愛辺リル",e:"",contents:"うさちゃんらーめん ×1 / 特製pipiBull ×1 / ペスカ ×1"},
 {c:"pack",n:"茄子なすとん　おすすめ3点セット",p:70000,pt:"7万円",q:"瞑想毎10個",co:"誰でも",st:"茄子なすとん",e:"",contents:"ゆず香る塩ラーメン ×1 / うさちゃんらーめん ×1 / 麻薬たまご ×1"},
 {c:"food",n:"豪快 麻婆ラーメン",p:700000,pt:"70万円",q:"従業員毎30個",co:"チーフ以上販売可能",e:"アーマーリジェネ回復（大） / アーマー（中）"},
@@ -81,9 +81,7 @@ const items=[
 {c:"food",n:"SINらーみょん",p:30000,pt:"3万円",q:"従業員毎50個",co:"誰でも",tag:"移動販売限定商品",e:"空腹.水分（中）"},
 {c:"food",n:"ブルソーらーみょん",p:5000,pt:"5000円",q:"従業員毎50個",co:"誰でも",e:"ストレス（中）酩酊2"},
 {c:"drink",n:"特製pipiBull",p:45000,pt:"4.5万円",q:"従業員毎30個",co:"誰でも",e:"足早（大）"},
-{c:"drink",n:"テンペスト",p:800000,pt:"80万円",q:"従業員毎30個",co:"チーフ以上販売可能",tag:"RGドリンクシリーズ",e:"スタミナ（最強）"},
-{c:"drink",n:"ノワール",p:213000,pt:"21.3万円",q:"従業員毎30個",co:"職人以上販売可能",tag:"RGドリンクシリーズ",e:"足早（特大） / スタミナ（中）"},
-{c:"drink",n:"オランジーネ",p:213000,pt:"21.3万円",q:"従業員毎30個",co:"職人以上販売可能",tag:"RGドリンクシリーズ",e:"泳ぎ早（特大） / スタミナ（中）"},
+{c:"drink",n:"ノワール",p:550000,pt:"55万円",q:"従業員毎30個",co:"ラーメンマスター以上販売可能",tag:"RGドリンクシリーズ",e:"アーマー（特大） / HP（大） / スタミナ（大）"},
 {c:"drink",n:"レザン",p:330000,pt:"33万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"アーマー（特大）"},
 {c:"drink",n:"ペスカ",p:160000,pt:"16万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"スタミナ（大）"},
 {c:"drink",n:"マーレ",p:60000,pt:"6万円",q:"従業員毎30個",co:"誰でも",tag:"RGドリンクシリーズ",e:"泳ぎ早（特大）"},
@@ -92,7 +90,7 @@ const items=[
 {c:"secret",n:"ちち搾り バニラ味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（特大）"},
 {c:"secret",n:"ちち搾り ストロベリー味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"空腹・水分（中） / ストレス・HP（小） / 止血"},
 {c:"secret",n:"ちち搾り チョコレート味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"HP（小） / アーマー（中）"},
-{c:"secret",n:"ちち搾り プリン味",p:950000,pt:"95万円",q:"瞑想毎上限20個",co:"チーフ以上販売可能可能",e:"アーマーリジェネ回復（特大） / アーマー（中） / HP（大）"}
+{c:"secret",n:"ちち搾り プリン味",p:100000,pt:"10万円",q:"1人従業員上限20個",co:"誰でも",e:"アーマー（中） / 止血"}
 ];
 const labels={pack:"パック商品",food:"食べ物",drink:"ドリンク商品",secret:"裏メニュー"};
 function effectDetails(e){
@@ -110,7 +108,7 @@ return tags.filter(([key])=>e.includes(key)).map(([key,label])=>{
 }
 function card(x){
 const body=`<div class="row"><span class="label">販売数</span><span class="value">${x.q}</span></div><div class="row"><span class="label">価格</span><span class="value price">${x.pt}</span></div>${x.e?`<div class="row"><span class="label">効果</span><span class="value effect">${x.e}</span></div>`:""}${x.contents?`<div class="packcontents"><b>📋 中身</b><div>${x.contents.replaceAll(" / ","<br>")}</div></div>`:""}`;
-return `<article class="card ${x.c==="pack"?"packcard":""}" ${x.c==="pack"?'onclick="this.classList.toggle(\'open\')"':""}><div class="name">${x.n}${x.c==="pack"?'<span class="tap">＋ クリックで中身</span>':""}</div><div class="badges"><span class="badge">${labels[x.c]}</span>${x.tag?`<span class="badge ${x.tag==="移動販売限定商品"?"mobile-only":""}">${x.tag}</span>`:""}<span class="badge ${x.co.startsWith("職人")?"artisan":x.co.startsWith("チーフ")?"chief":x.c==="secret"?"secret":"all"}">${x.co}</span></div>${x.st?`<div class="staff">👤 販売従業員：${x.st}</div>`:""}${x.c==="pack"?`<div class="packbody">${body}</div>`:body}</article>`;
+return `<article class="card ${x.c==="pack"?"packcard":""}" ${x.c==="pack"?'onclick="this.classList.toggle(\'open\')"':""}><div class="name">${x.n}${x.c==="pack"?'<span class="tap">＋ クリックで中身</span>':""}</div><div class="badges"><span class="badge">${labels[x.c]}</span>${x.tag?`<span class="badge ${x.tag==="移動販売限定商品"?"mobile-only":""}">${x.tag}</span>`:""}<span class="badge ${x.co.startsWith("ラーメンマスター")?"ramen-master":x.co.startsWith("職人")?"artisan":x.co.startsWith("チーフ")?"chief":x.c==="secret"?"secret":"all"}">${x.co}</span></div>${x.st?`<div class="staff">👤 販売従業員：${x.st}</div>`:""}${x.c==="pack"?`<div class="packbody">${body}</div>`:body}</article>`;
 }
 function render(){
   const activeCat=document.querySelector(".productcats .catbtn.active");
