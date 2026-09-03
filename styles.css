@@ -223,6 +223,9 @@ button { cursor: pointer; }
 .billing-product { min-width: 0; }
 .billing-product strong { display: block; overflow-wrap: anywhere; font-size: 13px; }
 .billing-product small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; }
+.billing-product-meta { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.billing-product-meta span { padding: 3px 6px; border-radius: 4px; background: #eee9df; color: #6c655b; font-size: 9px; }
+.billing-product-meta b { color: #2f463c; }
 .billing-quantity { display: grid; gap: 5px; }
 .billing-step-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .billing-quantity button,
@@ -230,6 +233,10 @@ button { cursor: pointer; }
 .billing-quantity button { background: #e7e0d2; color: var(--ink); font-size: 11px; font-weight: 900; }
 .billing-step-row.decrease button { background: #eee8df; color: #70463a; }
 .billing-step-row.increase button { background: #dce8df; color: #24523e; }
+.billing-quantity .billing-limit-button { height: 32px; border-color: #c49b49; background: #f4cf83; color: #5f4213; }
+.billing-quantity .billing-limit-button strong { font-weight: 900; }
+.billing-quantity .billing-limit-button:hover:not(:disabled) { border-color: #9f7223; background: #ffe2a5; color: #4f350b; }
+.billing-quantity .billing-limit-button:disabled { border-color: #c7c1b7; background: #e8e4dc; color: #8c867c; cursor: not-allowed; opacity: .7; }
 .billing-quantity button:hover { border-color: var(--orange); background: #fff0e6; }
 .billing-quantity input { padding: 2px; background: #fff; text-align: center; font-size: 14px; font-weight: 800; appearance: textfield; }
 .billing-quantity input::-webkit-inner-spin-button,
@@ -349,15 +356,17 @@ body.calculator-is-open { overflow: hidden; }
 .menu-table tr:last-child td { border-bottom: 0; }
 .product-name { padding-left: 16px !important; color: #29352f; font-size: 13px; font-weight: 800; line-height: 1.35; overflow-wrap: anywhere; }
 .product-name small { display: block; margin-top: 3px; color: #8a8e89; font-size: 8px; font-weight: 700; letter-spacing: .08em; }
+.product-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 7px; }
+.product-tag { display: inline-block; padding: 3px 7px; border: 1px solid #d2b46f; border-radius: 999px; background: #f8e8b9; color: #73561c; font-size: 9px; font-weight: 900; line-height: 1.2; }
 
 .counter {
-  width: min(100%, 240px);
+  width: min(100%, 260px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 58px minmax(52px, 64px) 34px 38px 42px;
+  grid-template-columns: 46px minmax(42px, 50px) 30px 33px 38px 42px;
   justify-content: center;
   align-items: stretch;
-  gap: 4px;
+  gap: 3px;
 }
 .counter button {
   height: 32px;
@@ -372,6 +381,9 @@ body.calculator-is-open { overflow: hidden; }
 .counter button:hover { border-color: var(--orange); background: #fff3e9; color: #a33e19; }
 .counter .counter-reset { background: #f0ece3; color: #655e54; font-size: 9px; }
 .counter .counter-reset:hover { border-color: var(--red); background: var(--red-soft); color: var(--red); }
+.counter .counter-limit { border-color: #c49b49; background: #f4cf83; color: #654713; font-size: 9px; }
+.counter .counter-limit:hover:not(:disabled) { border-color: #9f7223; background: #ffe2a5; color: #4f350b; }
+.counter .counter-limit:disabled { border-color: #c7c1b7; background: #e8e4dc; color: #999187; cursor: not-allowed; opacity: .7; }
 .counter button:focus-visible, .counter input:focus-visible { outline: 3px solid #e9b85f; outline-offset: 1px; }
 .counter input {
   width: 100%;
@@ -513,7 +525,8 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .counter {
     width: 100%;
     max-width: none;
-    grid-template-columns: 52px minmax(42px, 1fr) 34px 38px 42px;
+    grid-template-columns: 46px minmax(42px, 1fr) 30px 34px 39px 43px;
+    gap: 3px;
   }
   .counter-note { width: 100%; max-width: none; }
   .report-actions { align-items: flex-start; flex-direction: column; }

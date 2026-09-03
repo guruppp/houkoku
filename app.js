@@ -74,6 +74,34 @@ function formatNumber(value) {
   return new Intl.NumberFormat("ja-JP").format(value);
 }
 
+function productTagHtml(product) {
+  const tag = typeof product.tag === "string" ? product.tag.trim() : "";
+  return tag ? `<span class="product-tag">${escapeHtml(tag)}</span>` : "";
+}
+
+function billingLimitInfo(product) {
+  if (Number.isInteger(product["店内"])) {
+    return { label: "店内", value: product["店内"] };
+  }
+  if (Number.isInteger(product["移動販売"])) {
+    return { label: "移動販売", value: product["移動販売"] };
+  }
+  return { label: "店内", value: null, text: String(product["店内"]) };
+}
+
+function billingLimitButtonHtml(product) {
+  const limit = billingLimitInfo(product);
+  if (limit.value === null || limit.value <= 0) {
+    return `<button class="billing-limit-button" type="button" disabled>上限追加なし</button>`;
+  }
+  return `
+    <button class="billing-limit-button" type="button" data-billing-limit="${limit.value}"
+      aria-label="${escapeHtml(product["商品名"])}の1人分の上限${limit.value}個を追加">
+      上限 <strong>＋${formatNumber(limit.value)}個</strong>
+    </button>
+  `;
+}
+
 function billingProducts() {
   return state.groups.flatMap((group) =>
     group.products.map((product) => ({
@@ -232,6 +260,13 @@ function renderBillingCalculator() {
           <div class="billing-product">
             <strong>${escapeHtml(product["商品名"])}</strong>
             <small>単価 ${formatNumber(product["価格"])}円</small>
+            <div class="billing-product-meta">
+              ${(() => {
+                const limit = billingLimitInfo(product);
+                const value = limit.value === null ? limit.text : `${formatNumber(limit.value)}個`;
+                return `<span>上限個数（${limit.label}）：<b>${escapeHtml(value)}</b></span>`;
+              })()}
+            </div>
           </div>
           <div class="billing-quantity" aria-label="${escapeHtml(product["商品名"])}の数量">
             <div class="billing-step-row decrease">
@@ -245,6 +280,7 @@ function renderBillingCalculator() {
               <button type="button" data-billing-change="10" aria-label="10個増やす">＋10</button>
               <button type="button" data-billing-change="100" aria-label="100個増やす">＋100</button>
             </div>
+            ${billingLimitButtonHtml(product)}
           </div>
           <strong class="billing-line-total" data-billing-line-total>0円</strong>
         </div>
@@ -277,6 +313,10 @@ function counterHtml(product, channel) {
     return `<div class="counter-note">${escapeHtml(limitValue)}</div>`;
   }
 
+  const limitButton = Number.isInteger(limitValue) && limitValue > 0
+    ? `<button class="counter-limit" type="button" data-limit="${limitValue}" aria-label="${escapeHtml(label)}を1人分の上限${limitValue}個増やす">上限</button>`
+    : `<button class="counter-limit" type="button" disabled aria-label="${escapeHtml(label)}は上限なし">上限</button>`;
+
   return `
     <div class="counter" data-product="${escapeHtml(product.id)}" data-channel="${channel.id}">
       <button class="counter-reset" type="button" data-reset aria-label="${escapeHtml(label)}を0に戻す">リセット</button>
@@ -284,6 +324,7 @@ function counterHtml(product, channel) {
       <button type="button" data-change="1" aria-label="${escapeHtml(label)}を1増やす">+1</button>
       <button type="button" data-change="10" aria-label="${escapeHtml(label)}を10増やす">+10</button>
       <button type="button" data-change="100" aria-label="${escapeHtml(label)}を100増やす">+100</button>
+      ${limitButton}
     </div>
   `;
 }
@@ -304,7 +345,10 @@ function renderPanels() {
             ${group.products.map((product) => `
               <tr>
                 <td class="product-name">
-                  ${escapeHtml(product["商品名"])}
+                  <div class="product-title-line">
+                    <span>${escapeHtml(product["商品名"])}</span>
+                    ${productTagHtml(product)}
+                  </div>
                   <small>価格 ${formatNumber(product["価格"])}円 ／ 店内 ${escapeHtml(product["店内"])} ／ 移動販売 ${escapeHtml(product["移動販売"])}</small>
                 </td>
                 ${CHANNELS.map((channel) => `<td>${counterHtml(product, channel)}</td>`).join("")}
@@ -329,9 +373,14 @@ function renderPanels() {
 
     counter.querySelectorAll("button").forEach((button) => {
       button.addEventListener("click", () => {
+        const currentValue = getValue(productId, channelId);
         const nextValue = button.hasAttribute("data-reset")
           ? 0
-          : getValue(productId, channelId) + Number(button.dataset.change);
+          : currentValue + Number(
+              button.hasAttribute("data-limit")
+                ? button.dataset.limit
+                : button.dataset.change
+            );
         setValue(productId, channelId, nextValue);
         input.value = getValue(productId, channelId);
         updateReport();
@@ -448,6 +497,7 @@ function normalizeProductData(data) {
       group.products.every((product) =>
         typeof product.id === "string" &&
         typeof product["商品名"] === "string" &&
+        (product.tag === undefined || typeof product.tag === "string") &&
         Number.isInteger(product["価格"]) &&
         product["価格"] >= 0 &&
         isValidLimit(product["店内"]) &&
@@ -518,7 +568,7 @@ function showProductLoadFallback() {
       applyProductData(JSON.parse(await file.text()));
     } catch {
       elements.panels.querySelector(".error-message p").textContent =
-        "選択したファイルの形式が正しくありません。id・商品名・価格・店内・移動販売をご確認ください。";
+        "選択したファイルの形式が正しくありません。id・商品名・tag・価格・店内・移動販売をご確認ください。";
     }
   });
 }
@@ -564,9 +614,12 @@ elements.billingList.addEventListener("click", (event) => {
   const item = button.closest("[data-billing-product]");
   if (!item) return;
   const productId = item.dataset.billingProduct;
+  const change = button.hasAttribute("data-billing-limit")
+    ? Number(button.dataset.billingLimit)
+    : Number(button.dataset.billingChange);
   setBillingQuantity(
     productId,
-    billingQuantity(productId) + Number(button.dataset.billingChange)
+    billingQuantity(productId) + change
   );
   updateBillingTotals();
 });
