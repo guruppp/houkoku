@@ -261,15 +261,47 @@ body.calculator-is-open { overflow: hidden; }
   min-height: 82px;
   padding: 8px 12px 30px;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  gap: 30px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 12px;
   border-bottom: 1px solid #bfb8aa;
 }
 .work-header p { margin: 0 0 7px; color: var(--orange); font-size: 9px; font-weight: 800; letter-spacing: .22em; }
 .work-header h2 { margin: 0; font: 600 clamp(30px, 4vw, 50px)/1 Georgia, "Yu Mincho", serif; letter-spacing: -.04em; }
 .work-header .work-note { max-width: 320px; margin: 0; color: var(--muted); font-size: 11px; font-weight: 500; letter-spacing: 0; line-height: 1.65; }
 .work-note span { display: block; margin-bottom: 4px; color: var(--red); font-size: 8px; font-weight: 800; letter-spacing: .2em; }
+.bulk-controls {
+  width: 100%;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: 150px minmax(270px, 1fr) minmax(270px, 1fr);
+  align-items: center;
+  gap: 7px 9px;
+}
+.bulk-title { align-self: center; display: grid; gap: 2px; }
+.bulk-title span { color: var(--red); font-size: 8px; font-weight: 900; letter-spacing: .12em; }
+.bulk-title strong { color: var(--ink); font-size: 13px; white-space: nowrap; }
+.bulk-channel { display: grid; gap: 4px; }
+.bulk-channel > strong { color: var(--red); font-size: 9px; letter-spacing: .08em; }
+.bulk-channel-mobile > strong { color: #705b3e; }
+.bulk-step-buttons { display: grid; grid-template-columns: repeat(6, minmax(36px, 1fr)); gap: 4px; }
+.bulk-step-buttons button {
+  min-height: 34px;
+  padding: 4px 3px;
+  border: 1px solid #aaa398;
+  border-radius: 4px;
+  background: #ede8df;
+  color: #713f37;
+  font-size: 10px;
+  font-weight: 900;
+}
+.bulk-step-buttons button:nth-child(n+4) { border-color: #8e342f; background: var(--red); color: #fff; }
+.bulk-channel-mobile .bulk-step-buttons button:nth-child(n+4) { border-color: #705b3e; background: #7b6240; }
+.bulk-step-buttons button:hover:not(:disabled) { filter: brightness(1.12); }
+.bulk-step-buttons button:disabled { cursor: not-allowed; opacity: .45; }
+.bulk-step-buttons button:focus-visible { outline: 3px solid #e9b85f; outline-offset: 2px; }
+.bulk-status { min-height: 13px; grid-column: 1 / -1; color: #4c675b; font-size: 9px; font-weight: 800; }
 
 .menu-panels { padding-top: 28px; display: grid; gap: 25px; }
 
@@ -417,6 +449,9 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .app-shell { padding: 20px; grid-template-columns: 240px minmax(0, 1fr); gap: 20px; }
   .control-deck { padding: 24px; }
   .app-header h1 { font-size: 36px; }
+  .work-header { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .bulk-controls { width: 100%; margin: 0; grid-template-columns: 1fr 1fr; }
+  .bulk-title { grid-column: 1 / -1; }
 }
 
 @media (max-width: 760px) {
@@ -436,6 +471,9 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .reset-button { margin-top: 8px; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
+  .bulk-controls { grid-template-columns: 1fr; }
+  .bulk-title { grid-column: auto; }
+  .bulk-step-buttons button { min-height: 40px; }
   .menu-panel { padding-inline: 12px; }
   .table-scroll { overflow: visible; border: 0; }
   .menu-table { min-width: 0; display: block; background: transparent; }

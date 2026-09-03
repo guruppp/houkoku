@@ -41,6 +41,8 @@ const elements = {
   billingCopyStatus: document.querySelector("#billing-copy-status"),
   billingClearButton: document.querySelector("#billing-clear-button"),
   billingApplyButton: document.querySelector("#billing-apply-button"),
+  bulkButtons: document.querySelectorAll("[data-bulk-channel]"),
+  bulkStatus: document.querySelector("#bulk-status"),
   output: document.querySelector("#report-output"),
   copyButton: document.querySelector("#copy-button"),
   copyStatus: document.querySelector("#copy-status")
@@ -137,6 +139,41 @@ async function copyBillingTotal() {
 function productAcceptsChannel(product, channel) {
   const limitValue = product[channel.limitKey];
   return typeof limitValue !== "string" || limitValue === "上限なし";
+}
+
+function changeBulkSales(channelId, change) {
+  const channel = CHANNELS.find((candidate) => candidate.id === channelId);
+  if (!channel || !change) return;
+
+  const amount = Math.abs(change);
+  let updatedProducts = 0;
+
+  state.groups.forEach((group) => {
+    group.products.forEach((product) => {
+      if (!productAcceptsChannel(product, channel)) return;
+      const currentValue = getValue(product.id, channel.id);
+      const nextValue = currentValue + change;
+      if (change < 0 && currentValue === 0) return;
+      setValue(
+        product.id,
+        channel.id,
+        nextValue
+      );
+      updatedProducts += 1;
+    });
+  });
+
+  renderPanels();
+  updateReport();
+  if (updatedProducts) {
+    elements.bulkStatus.textContent = change > 0
+      ? `${channel.label}の販売可能商品${updatedProducts}件に${amount}個ずつ加算しました`
+      : `${channel.label}の入力済み商品${updatedProducts}件から最大${amount}個ずつ減らしました`;
+  } else {
+    elements.bulkStatus.textContent = change > 0
+      ? `${channel.label}で販売可能な商品はありません`
+      : `${channel.label}に減らせる入力はありません`;
+  }
 }
 
 function applyBillingToSalesReport() {
@@ -362,6 +399,7 @@ function resetAll() {
   state.valuesByMenu[state.currentMenu] = state.values;
   state.billingValuesByMenu[state.currentMenu] = {};
   elements.date.value = localDate();
+  elements.bulkStatus.textContent = "";
   renderPanels();
   updateReport();
   if (!elements.calculatorOverlay.hidden) renderBillingCalculator();
@@ -427,6 +465,7 @@ function applyProductData(data, menuId = "newProducts") {
   state.groups = state.menus[menuId];
   state.values = state.valuesByMenu[menuId];
   elements.calculatorOpenButton.disabled = false;
+  elements.bulkButtons.forEach((button) => { button.disabled = false; });
   renderPanels();
   updateReport();
 }
@@ -450,6 +489,7 @@ function switchMenu() {
   elements.productMasterFile.textContent = isNewMenu
     ? "products.json"
     : "products-old.json";
+  elements.bulkStatus.textContent = "";
 
   renderPanels();
   updateReport();
@@ -546,6 +586,14 @@ elements.billingClearButton.addEventListener("click", () => {
 });
 elements.billingApplyButton.addEventListener("click", applyBillingToSalesReport);
 elements.billingTotalCopyButton.addEventListener("click", copyBillingTotal);
+elements.bulkButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    changeBulkSales(
+      button.dataset.bulkChannel,
+      Number(button.dataset.bulkChange)
+    );
+  });
+});
 document.addEventListener("keydown", (event) => {
   if (elements.calculatorOverlay.hidden) return;
   if (event.key === "Escape") {

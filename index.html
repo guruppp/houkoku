@@ -7,8 +7,8 @@
     <meta name="description" content="商品の販売数を入力して、報告文を作成できる売上報告ツールです。">
     <title>売上報告ツール</title>
     <link rel="icon" href="favicon.svg">
-    <link rel="stylesheet" href="styles.css?v=20260831-1">
-    <script src="app.js?v=20260831-1" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260903-2">
+    <script src="app.js?v=20260903-2" defer></script>
   </head>
   <body>
     <main class="app-shell">
@@ -45,6 +45,35 @@
 
       <section class="work-area">
         <header class="work-header">
+          <div class="bulk-controls" aria-label="販売可能商品を一括加算">
+            <div class="bulk-title">
+              <span>BULK CONTROL</span>
+              <strong>販売可能商品を一括変更</strong>
+            </div>
+            <div class="bulk-channel">
+              <strong>店内販売</strong>
+              <div class="bulk-step-buttons" aria-label="店内販売を一括変更">
+                <button type="button" data-bulk-channel="inside" data-bulk-change="-100" disabled>−100</button>
+                <button type="button" data-bulk-channel="inside" data-bulk-change="-10" disabled>−10</button>
+                <button type="button" data-bulk-channel="inside" data-bulk-change="-1" disabled>−1</button>
+                <button type="button" data-bulk-channel="inside" data-bulk-change="1" disabled>＋1</button>
+                <button type="button" data-bulk-channel="inside" data-bulk-change="10" disabled>＋10</button>
+                <button type="button" data-bulk-channel="inside" data-bulk-change="100" disabled>＋100</button>
+              </div>
+            </div>
+            <div class="bulk-channel bulk-channel-mobile">
+              <strong>移動販売</strong>
+              <div class="bulk-step-buttons" aria-label="移動販売を一括変更">
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="-100" disabled>−100</button>
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="-10" disabled>−10</button>
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="-1" disabled>−1</button>
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="1" disabled>＋1</button>
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="10" disabled>＋10</button>
+                <button type="button" data-bulk-channel="mobile" data-bulk-change="100" disabled>＋100</button>
+              </div>
+            </div>
+            <small id="bulk-status" class="bulk-status" role="status"></small>
+          </div>
           <p class="work-note"><span>HOW TO</span> 数字を直接入力、または左右のボタンで調整できます。</p>
         </header>
 
