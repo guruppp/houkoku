@@ -117,7 +117,15 @@ button { cursor: pointer; }
 .count-card small,
 .total-card small { color: #b6c7be; font-size: 10px; }
 
-.menu-switch-button,
+.utility-actions {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 24px;
+  display: grid;
+  gap: 8px;
+}
+
 .effect-page-link,
 .calculator-open-button,
 .reset-button {
@@ -134,7 +142,6 @@ button { cursor: pointer; }
   text-decoration: none;
 }
 .effect-page-link {
-  margin-top: 8px;
   display: grid;
   place-items: center;
   border-color: #9fb6aa;
@@ -143,30 +150,12 @@ button { cursor: pointer; }
 }
 .effect-page-link:hover { border-color: #f4cf83; color: #f4cf83; }
 .calculator-open-button {
-  margin-top: 8px;
   border-color: #86aeb8;
   background: #244b55;
   color: #fff;
 }
 .calculator-open-button:hover { border-color: #bce8f1; background: #2d5d68; }
 .calculator-open-button:disabled { cursor: not-allowed; opacity: .6; }
-.current-menu-label {
-  position: relative;
-  z-index: 1;
-  margin: auto 0 8px;
-  color: #b6c7be;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .04em;
-}
-.menu-switch-button {
-  border-color: #f4cf83;
-  background: #f4cf83;
-  color: #173b33;
-}
-.menu-switch-button:hover:not(:disabled) { background: #ffe0a0; }
-.menu-switch-button:disabled { cursor: not-allowed; opacity: .6; }
-.reset-button { margin-top: 8px; }
 .reset-button:hover { border-color: #f4cf83; color: #f4cf83; }
 
 .calculator-overlay {
@@ -476,11 +465,7 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   .app-header h1 em { margin-left: 8px; }
   .report-meta { margin-top: 22px; }
   .count-card { margin-top: 16px; }
-  .current-menu-label { margin-top: 18px; }
-  .menu-switch-button,
-  .effect-page-link,
-  .calculator-open-button,
-  .reset-button { margin-top: 8px; }
+  .utility-actions { margin-top: 24px; padding-top: 0; }
   .work-area { padding-top: 15px; }
   .work-header { min-height: 82px; padding-inline: 8px; align-items: flex-start; flex-direction: column; }
   .bulk-controls { grid-template-columns: 1fr; }
