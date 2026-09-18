@@ -5,8 +5,18 @@ const CHANNELS = [
   { id: "mobile", label: "移動販売", limitKey: "移動販売" }
 ];
 
+const REPLENISHMENT_CHANNEL = {
+  id: "replenishment",
+  label: "補充",
+  limitKey: "上限"
+};
+
 const state = {
   groups: [],
+  replenishment: {
+    name: "補充",
+    items: []
+  },
   values: {},
   currentMenu: "newProducts",
   valuesByMenu: {
@@ -319,7 +329,39 @@ function counterHtml(product, channel) {
 }
 
 function renderPanels() {
-  elements.panels.innerHTML = state.groups.map((group) => `
+  const replenishmentProducts = state.replenishment.items;
+
+  const replenishmentPanel = replenishmentProducts.length ? `
+    <section class="menu-panel replenishment-panel" aria-labelledby="replenishment-heading">
+      <h2 id="replenishment-heading">${escapeHtml(state.replenishment.name)}</h2>
+      <div class="table-scroll">
+        <table class="menu-table replenishment-table">
+          <thead>
+            <tr>
+              <th scope="col">商品名</th>
+              <th scope="col">補充数</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${replenishmentProducts.map((product) => `
+              <tr>
+                <td class="product-name">
+                  <div class="product-title-line">
+                    <span>${escapeHtml(product["商品名"])}</span>
+                    ${productTagHtml(product)}
+                  </div>
+                  <small>補充する個数を入力</small>
+                </td>
+                <td>${counterHtml(product, REPLENISHMENT_CHANNEL)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ` : "";
+
+  const salesPanels = state.groups.map((group) => `
     <section class="menu-panel" aria-labelledby="group-${escapeHtml(group.id)}">
       <h2 id="group-${escapeHtml(group.id)}">${escapeHtml(group.name)}</h2>
       <div class="table-scroll">
@@ -348,6 +390,8 @@ function renderPanels() {
       </div>
     </section>
   `).join("");
+
+  elements.panels.innerHTML = replenishmentPanel + salesPanels;
 
   document.querySelectorAll(".counter").forEach((counter) => {
     const productId = counter.dataset.product;
@@ -378,10 +422,11 @@ function renderPanels() {
   });
 }
 
-function activeProducts() {
+function activeSalesProducts() {
   return state.groups.flatMap((group) =>
     group.products
       .map((product) => ({
+        id: product.id,
         name: product["商品名"],
         inside: getValue(product.id, "inside"),
         mobile: getValue(product.id, "mobile"),
@@ -390,6 +435,16 @@ function activeProducts() {
       }))
       .filter((product) => product.sales)
   );
+}
+
+function activeReplenishmentProducts() {
+  return state.replenishment.items
+    .map((product) => ({
+      id: product.id,
+      name: product["商品名"],
+      quantity: getValue(product.id, REPLENISHMENT_CHANNEL.id)
+    }))
+    .filter((product) => product.quantity);
 }
 
 function displayWidth(text) {
@@ -403,32 +458,50 @@ function displayWidth(text) {
 }
 
 function createReport() {
-  const active = activeProducts();
+  const replenishments = activeReplenishmentProducts();
+  const sales = activeSalesProducts();
   const [, month = "", day = ""] = elements.date.value.split("-");
   const reportDate = `${Number(month)}/${Number(day)}`;
 
-  if (!active.length) return reportDate;
+  if (!replenishments.length && !sales.length) return reportDate;
 
-  const nameColumnWidth = Math.max(
-    ...active.map((product) => displayWidth(product.name))
-  );
-  const lines = active.map((product) => {
-    const spacing = " ".repeat(
-      nameColumnWidth - displayWidth(product.name) + 4
+  const createProductLines = (products, quantityKey) => {
+    if (!products.length) return [];
+    const nameColumnWidth = Math.max(
+      ...products.map((product) => displayWidth(product.name))
     );
-    return `${product.name}${spacing}${product.sales}`;
-  });
+    return products.map((product) => {
+      const spacing = " ".repeat(
+        nameColumnWidth - displayWidth(product.name) + 4
+      );
+      return `${product.name}${spacing}${product[quantityKey]}`;
+    });
+  };
 
-  return `${reportDate}\n${lines.join("\n")}`;
+  const replenishmentLines = createProductLines(replenishments, "quantity");
+  const salesLines = createProductLines(sales, "sales");
+
+  return [
+    reportDate,
+    "補充",
+    ...replenishmentLines,
+    "販売",
+    ...salesLines
+  ].join("\n");
 }
 
 function updateReport() {
-  const active = activeProducts();
-  elements.count.textContent = active.length;
+  const replenishments = activeReplenishmentProducts();
+  const sales = activeSalesProducts();
+  const activeProductIds = new Set([
+    ...replenishments.map((product) => product.id),
+    ...sales.map((product) => product.id)
+  ]);
+  elements.count.textContent = activeProductIds.size;
   elements.total.textContent = formatNumber(
-    active.reduce((total, product) => total + product.sales * product.price, 0)
+    sales.reduce((total, product) => total + product.sales * product.price, 0)
   );
-  elements.output.value = active.length ? createReport() : "ここに報告文が表示されます";
+  elements.output.value = activeProductIds.size ? createReport() : "ここに報告文が表示されます";
 }
 
 function resetAll() {
@@ -474,8 +547,17 @@ function normalizeProductData(data) {
   const groups = Array.isArray(data)
     ? [{ id: "products", name: "商品一覧", products: data }]
     : data.groups;
+  const replenishment = Array.isArray(data)
+    ? { name: "補充", items: [] }
+    : (data.replenishment || { name: "補充", items: [] });
 
   if (!Array.isArray(groups)) throw new Error("商品グループがありません");
+  if (
+    typeof replenishment.name !== "string" ||
+    !Array.isArray(replenishment.items)
+  ) {
+    throw new Error("補充用の商品データの形式が正しくありません");
+  }
 
   const isValidLimit = (value) =>
     (Number.isInteger(value) && value >= 0) ||
@@ -494,12 +576,23 @@ function normalizeProductData(data) {
       )
   );
 
-  if (!productsAreValid) throw new Error("商品データの形式が正しくありません");
-  return groups;
+  const replenishmentItemsAreValid = replenishment.items.every((product) =>
+    typeof product.id === "string" &&
+    typeof product["商品名"] === "string" &&
+    (product.tag === undefined || typeof product.tag === "string") &&
+    isValidLimit(product["上限"])
+  );
+
+  if (!productsAreValid || !replenishmentItemsAreValid) {
+    throw new Error("商品データの形式が正しくありません");
+  }
+  return { groups, replenishment };
 }
 
 function applyProductData(data) {
-  state.groups = normalizeProductData(data);
+  const normalizedData = normalizeProductData(data);
+  state.groups = normalizedData.groups;
+  state.replenishment = normalizedData.replenishment;
   state.values = state.valuesByMenu[state.currentMenu];
   elements.calculatorOpenButton.disabled = false;
   elements.bulkButtons.forEach((button) => { button.disabled = false; });
@@ -529,7 +622,7 @@ function showProductLoadFallback() {
       applyProductData(JSON.parse(await file.text()));
     } catch {
       elements.panels.querySelector(".error-message p").textContent =
-        "選択したファイルの形式が正しくありません。id・商品名・tag・価格・店内・移動販売をご確認ください。";
+        "選択したファイルの形式が正しくありません。補充用項目と商品のid・商品名・上限・tag・価格・店内・移動販売をご確認ください。";
     }
   });
 }

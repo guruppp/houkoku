@@ -339,6 +339,10 @@ body.calculator-is-open { overflow: hidden; }
 .menu-table th:not(:first-child) { width: 34%; }
 .menu-table th:nth-child(2) { box-shadow: inset 0 -4px var(--orange); }
 .menu-table th:nth-child(3) { box-shadow: inset 0 -4px var(--gold); }
+.replenishment-panel { border-top: 5px solid var(--blue); }
+.replenishment-table th:first-child { width: 42%; }
+.replenishment-table th:not(:first-child) { width: 58%; }
+.replenishment-table th:nth-child(2) { box-shadow: inset 0 -4px var(--blue); }
 
 .menu-table td { height: 52px; padding: 9px 12px; border-bottom: 1px solid #e5e0d7; background: #fff; vertical-align: middle; }
 .menu-table tr:nth-child(even) td { background: #faf8f2; }
@@ -507,6 +511,7 @@ footer code { padding: 2px 5px; background: #e7e0d2; }
   }
   .menu-table td:nth-child(2)::before { content: "店内販売"; }
   .menu-table td:nth-child(3)::before { content: "移動販売"; }
+  .replenishment-table td:nth-child(2)::before { content: "補充数"; }
   .counter {
     width: 100%;
     max-width: none;

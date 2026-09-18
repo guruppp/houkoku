@@ -1,4 +1,10 @@
 {
+  "replenishment": {
+    "name": "補充",
+    "items": [
+      { "id": "donburi", "商品名": "ラーメンどんぶり", "tag": "", "上限": "上限なし" }
+    ]
+  },
   "groups": [
     {
       "id": "pack",
